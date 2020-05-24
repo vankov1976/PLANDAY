@@ -791,15 +791,6 @@ Public Class OvertimeForm
         Dim value As Dictionary(Of String, Object)
         Dim objhttp As New WinHttp.WinHttpRequest
 
-        If api_token = "" Then
-            '''''''''''''''''''''get api_token''''''''''''''''''''''''
-            objhttp.Open("POST", "https://openapi-login.planday.com/connect/token", False)
-            objhttp.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-            objhttp.Send("client_id=ddca428b-8530-405d-9960-047132c49531&grant_type=refresh_token&refresh_token=r3xT0r-WAUiIlgQWDYWVsw")
-            Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
-            api_token = Parsed("access_token")
-        End If
-
         '''''''''''''''get employees_count''''''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
