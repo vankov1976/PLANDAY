@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices
-
+﻿
 Namespace My
     ' The following events are available for MyApplication:
     ' Startup: Raised when the application starts, before the startup form is created.
@@ -8,8 +7,7 @@ Namespace My
     ' StartupNextInstance: Raised when launching a single-instance application and the application is already active. 
     ' NetworkAvailabilityChanged: Raised when the network connection is connected or disconnected.
     Partial Friend Class MyApplication
-        Private Sub AppStart(ByVal sender As Object,
-  ByVal e As Microsoft.VisualBasic.ApplicationServices.StartupEventArgs) Handles Me.Startup
+        Private Sub AppStart(ByVal sender As Object, ByVal e As Microsoft.VisualBasic.ApplicationServices.StartupEventArgs) Handles Me.Startup
             AddHandler AppDomain.CurrentDomain.AssemblyResolve, AddressOf ResolveAssemblies
         End Sub
 
