@@ -133,7 +133,7 @@ Public Class ExportForm
         '''''''''''''
         Dim Parsed As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
 
         '''''''employee_records'''''''''
 
@@ -224,7 +224,7 @@ Public Class ExportForm
         Dim Parsed As Dictionary(Of String, Object)
         Dim Parsed_temp As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
         Dim current_row As New Dictionary(Of String, Integer)
 
         report_workbooks.Clear()
@@ -856,7 +856,7 @@ Public Class ExportForm
         '''''''''''''
         Dim Parsed As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
 
         '''''''employee_records'''''''''
 
@@ -915,7 +915,7 @@ Public Class ExportForm
         Dim Parsed As Dictionary(Of String, Object)
         Dim Parsed_temp As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
         Dim current_row As New Dictionary(Of String, Integer)
 
         report_workbooks.Clear()
@@ -1345,7 +1345,7 @@ Public Class ExportForm
         '''''''''''''
         Dim Parsed As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
 
         Dim found()
         ''''find count'''''
@@ -1405,7 +1405,7 @@ Public Class ExportForm
         Dim Parsed As Dictionary(Of String, Object)
         Dim Parsed_temp As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest 'CreateObject("MSXML2.ServerXMLHTTP")
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP") 'CreateObject("MSXML2.ServerXMLHTTP")
         Dim current_row As New Dictionary(Of String, Integer)
 
         report_workbooks.Clear()

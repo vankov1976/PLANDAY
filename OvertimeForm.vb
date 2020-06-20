@@ -424,7 +424,7 @@ Public Class OvertimeForm
     ''''''''''Initialisieren'''''''''''''''''''''''''
     Sub initialize()
 
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
         Dim Parsed As Dictionary(Of String, Object)
 
         start_monday = Date.Today.AddDays(-Weekday(Date.Today, 2) - 6)
@@ -789,7 +789,7 @@ Public Class OvertimeForm
         Dim Parsed As Dictionary(Of String, Object)
         Dim Parsed_temp As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
 
         '''''''''''''''get employees_count''''''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0", False)
@@ -896,7 +896,7 @@ Public Class OvertimeForm
         Dim Parsed As Dictionary(Of String, Object)
         Dim Parsed_temp As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
 
         '''''''''''''''get employees_count''''''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0", False)
@@ -1147,7 +1147,7 @@ Public Class OvertimeForm
         Dim Parsed As Dictionary(Of String, Object)
         Dim Values As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
 
         objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts?employeeId=" & employee_id & "&status=Active", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
@@ -1205,7 +1205,7 @@ Public Class OvertimeForm
         Dim shift_type As String = ""
         Dim Parsed As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
 
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees/" & employee_id & "?special=BirthDate", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
@@ -1331,7 +1331,7 @@ Public Class OvertimeForm
         Dim Parsed As Dictionary(Of String, Object)
         Dim Values As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
 
         kw_startDate = CDate(Strings.Left(kw_string, 10))
         kw_endDate = CDate(Strings.Right(kw_string, 10))
@@ -1401,7 +1401,7 @@ Public Class OvertimeForm
         Dim Parsed As Dictionary(Of String, Object)
         Dim Values As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
 
         objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts?employeeId=" & employee_id & "&status=Active", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
@@ -1459,7 +1459,7 @@ Public Class OvertimeForm
 
         Dim Parsed As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
         Dim shift_type As String = ""
         Dim hours As Double
         Dim shift_length_hours As Double
@@ -1576,7 +1576,7 @@ Public Class OvertimeForm
 
         Dim Parsed As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
 
         objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?departmentId=" & department_id & "&employeeId=" & employee_id & "&from=" & begin_date & "&to=" & final_date, False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
@@ -1600,7 +1600,7 @@ Public Class OvertimeForm
         Dim overtime_accounts()
         Dim Parsed As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest 'MSXML2.ServerXMLHTTP60
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
 
         objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts?employeeId=" & employee_id & "&status=Active", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
@@ -1638,6 +1638,7 @@ Public Class OvertimeForm
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
         objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
 
+        On Error Resume Next
         objhttp.Send(JSON)
 
     End Sub
@@ -1836,7 +1837,7 @@ Public Class OvertimeForm
         Dim vacation_accounts()
         Dim Parsed As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
 
         objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts?employeeId=" & employee_id, False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
@@ -1966,7 +1967,7 @@ weiter:
         Dim Parsed As Dictionary(Of String, Object)
         Dim Parsed_temp As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
 
         Dim user As String
         Dim oShell As Object = CreateObject("WScript.Shell")
@@ -2242,7 +2243,7 @@ weiter:
         Dim working_days()
         Dim Parsed As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
         Dim shift_type As String = ""
 
         objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & quarter_start_ & "&to=" & quarter_end_, False)
@@ -2352,7 +2353,7 @@ weiter:
         Dim breaks()
         Dim Parsed As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
         Dim shift_type As String = ""
 
         objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & last_3_months_start_ & "&to=" & last_3_months_end_, False)
@@ -2426,7 +2427,7 @@ weiter:
         Dim breaks()
         Dim Parsed As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
-        Dim objhttp As New WinHttp.WinHttpRequest
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
         Dim temp_sunday As Double
         Dim temp_night As Double
 
