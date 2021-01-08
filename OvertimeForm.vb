@@ -46,6 +46,8 @@ Public Class OvertimeForm
     Public Shared night_hours_krank As Double
     Public Shared working_hours_krank As Double
     Public Shared sunday_FT_hours As Double
+    Public Shared XMAS_150 As Double
+    Public Shared XMAS_125 As Double
     Public Shared working_hours As Double
     Public Shared night_hours As Double
     Public Shared start_ As String
@@ -263,8 +265,23 @@ Public Class OvertimeForm
                                                                 New MonthPeriod(CDate("04.10.2020"), CDate("03.11.2020")),
                                                                 New MonthPeriod(CDate("04.11.2020"), CDate("03.12.2020")))
 
+        Dim payroll_2021 As PayrollPeriods = New PayrollPeriods(2021,
+                                                                New MonthPeriod(CDate("04.12.2020"), CDate("03.01.2021")),
+                                                                New MonthPeriod(CDate("04.01.2021"), CDate("03.02.2021")),
+                                                                New MonthPeriod(CDate("04.02.2021"), CDate("03.03.2021")),
+                                                                New MonthPeriod(CDate("04.03.2021"), CDate("03.04.2021")),
+                                                                New MonthPeriod(CDate("04.04.2021"), CDate("03.05.2021")),
+                                                                New MonthPeriod(CDate("04.05.2021"), CDate("03.06.2021")),
+                                                                New MonthPeriod(CDate("04.06.2021"), CDate("03.07.2021")),
+                                                                New MonthPeriod(CDate("04.07.2021"), CDate("03.08.2021")),
+                                                                New MonthPeriod(CDate("04.08.2021"), CDate("03.09.2021")),
+                                                                New MonthPeriod(CDate("04.09.2021"), CDate("03.10.2021")),
+                                                                New MonthPeriod(CDate("04.10.2021"), CDate("03.11.2021")),
+                                                                New MonthPeriod(CDate("04.11.2021"), CDate("03.12.2021")))
+
         payroll_periods(2019) = payroll_2019
         payroll_periods(2020) = payroll_2020
+        payroll_periods(2021) = payroll_2021
     End Sub
 
     Public Sub set_params()
@@ -571,7 +588,7 @@ Public Class OvertimeForm
         '''''''''''''''FT für departments'''''''''''''''''''''''''''''''''
         Dim J
         Dim O
-        J = Year(start_monday)
+        J = Year(start_monday.AddDays(6))
         'Osterberechnung
         O = Ostern(J)
         'Feiertage berechnen
@@ -603,7 +620,7 @@ Public Class OvertimeForm
         FT_Name(Karfreitag) = "Karfreitag"
         FT_Name(Ostermontag) = "Ostermontag"
         FT_Name(EMai) = "Tag der Arbeit"
-        FT_Name(Tag_der_Befreiung) = "Tag der Befreiung"
+        If J = 2020 Then FT_Name(Tag_der_Befreiung) = "Tag der Befreiung"
         FT_Name(Christi_Himmelfahrt) = "Christi Himmelfahrt"
         FT_Name(Pfingstmontag) = "Pfingstmontag"
         FT_Name(Fronleichnam) = "Fronleichnam"
@@ -619,10 +636,15 @@ Public Class OvertimeForm
 
 
             If departments(department_id).Contains("Berlin") Or departments(department_id).Contains("Administration") Then
-
-                departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr, Frauentag,
+                If J = 2020 Then
+                    departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr, Frauentag,
                             Karfreitag, Ostermontag, EMai, Tag_der_Befreiung, Christi_Himmelfahrt, Pfingstmontag,
                             Tag_der_deutschen_Einheit, EWeihnachtstag, ZWeihnachtstag}
+                Else
+                    departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr, Frauentag,
+                            Karfreitag, Ostermontag, EMai, Christi_Himmelfahrt, Pfingstmontag,
+                            Tag_der_deutschen_Einheit, EWeihnachtstag, ZWeihnachtstag}
+                End If
             End If
 
             If departments(department_id).Contains("Frankfurt") Then
@@ -702,7 +724,7 @@ Public Class OvertimeForm
         FT_Name(Karfreitag) = "Karfreitag"
         FT_Name(Ostermontag) = "Ostermontag"
         FT_Name(EMai) = "Tag der Arbeit"
-        If year <> 2019 Then FT_Name(Tag_der_Befreiung) = "Tag der Befreiung"
+        If year = 2020 Then FT_Name(Tag_der_Befreiung) = "Tag der Befreiung"
         FT_Name(Christi_Himmelfahrt) = "Christi Himmelfahrt"
         FT_Name(Pfingstmontag) = "Pfingstmontag"
         FT_Name(Fronleichnam) = "Fronleichnam"
@@ -718,15 +740,14 @@ Public Class OvertimeForm
 
 
             If departments(department_id).Contains("Berlin") Or departments(department_id).Contains("Administration") Then
-                If year = 2019 Then
-                    departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr, Frauentag,
-                            Karfreitag, Ostermontag, EMai, Christi_Himmelfahrt, Pfingstmontag,
-                            Tag_der_deutschen_Einheit, EWeihnachtstag, ZWeihnachtstag}
-                Else
+                If year = 2020 Then
                     departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr, Frauentag,
                             Karfreitag, Ostermontag, EMai, Tag_der_Befreiung, Christi_Himmelfahrt, Pfingstmontag,
                             Tag_der_deutschen_Einheit, EWeihnachtstag, ZWeihnachtstag}
-
+                Else
+                    departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr, Frauentag,
+                            Karfreitag, Ostermontag, EMai, Christi_Himmelfahrt, Pfingstmontag,
+                            Tag_der_deutschen_Einheit, EWeihnachtstag, ZWeihnachtstag}
                 End If
             End If
 
@@ -771,7 +792,7 @@ Public Class OvertimeForm
     End Sub
 
     Private Sub LOAD_button_Click(sender As Object, e As EventArgs) Handles LOAD_button.Click
-        init_FT(Year(CDate(Strings.Left(Strings.Right(select_kw.Text, 21), 10))))
+        init_FT(Year(CDate(Strings.Right(Strings.Right(select_kw.Text, 21), 10))))
         Me.select_employees.Items.Clear()
         Erase employees_records
         'Show Loading Indicator
@@ -1236,67 +1257,68 @@ Public Class OvertimeForm
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
             For Each value In Parsed("data")
-                '''''
-                Erase breaks
+                If (value.ContainsKey("startDateTime") And value.ContainsKey("endDateTime")) Then
+                    '''''
+                    Erase breaks
 
-                breaks = return_breaks(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-                '''''
-                If value.ContainsKey("shiftTypeId") Then
-                    shift_type = shift_types(value("shiftTypeId"))
-                Else
-                    shift_type = "Normal"
+                    breaks = return_breaks(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                    '''''
+                    If value.ContainsKey("shiftTypeId") Then
+                        shift_type = shift_types(value("shiftTypeId"))
+                    Else
+                        shift_type = "Normal"
+                    End If
+
+                    Select Case shift_type
+
+                        Case "Sick leave - unpaid"
+                        Case "No show"
+                        'Case "FREI"
+                        Case "Time off in lieu"
+                        Case "Holiday"
+                        Case "Anderes Haus übernimmt Schicht"
+                        Case "Bank holiday - off"
+                        Case "FREI // Kurzarbeit Ausgleich"
+                        Case Else
+                            '''''''''
+                            If records Is Nothing Then
+                                ReDim Preserve records(0)
+                                records(0) = New ShiftRecord
+                                records(0).Shift_date = CDate(value("date"))
+                                records(0).Shift_type = shift_type
+                                records(0).Shift_from = Strings.Right(value("startDateTime"), 5)
+                                records(0).Shift_to = Strings.Right(value("endDateTime"), 5)
+                                If Not breaks Is Nothing Then
+                                    records(0).Shift_break_1_from = Strings.Right(Strings.Left(breaks(0), 16), 5)
+                                    records(0).Shift_break_1_to = Strings.Right(Strings.Right(breaks(0), 16), 5)
+                                    If breaks.Length > 1 Then
+                                        records(0).Shift_break_2_from = Strings.Right(Strings.Left(breaks(1), 16), 5)
+                                        records(0).Shift_break_2_to = Strings.Right(Strings.Right(breaks(1), 16), 5)
+                                    End If
+                                End If
+                                records(0).Shift_length = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            Else
+                                ReDim Preserve records(UBound(records) + 1)
+                                records(UBound(records)) = New ShiftRecord
+                                records(UBound(records)).Shift_date = CDate(value("date"))
+                                records(UBound(records)).Shift_type = shift_type
+                                records(UBound(records)).Shift_from = Strings.Right(value("startDateTime"), 5)
+                                records(UBound(records)).Shift_to = Strings.Right(value("endDateTime"), 5)
+                                If Not breaks Is Nothing Then
+                                    records(UBound(records)).Shift_break_1_from = Strings.Right(Strings.Left(breaks(0), 16), 5)
+                                    records(UBound(records)).Shift_break_1_to = Strings.Right(Strings.Right(breaks(0), 16), 5)
+                                    If breaks.Length > 1 Then
+                                        records(UBound(records)).Shift_break_2_from = Strings.Right(Strings.Left(breaks(1), 16), 5)
+                                        records(UBound(records)).Shift_break_2_to = Strings.Right(Strings.Right(breaks(1), 16), 5)
+                                    End If
+                                End If
+                                records(UBound(records)).Shift_length = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            End If
+                            ''''''''''''''''
+                            working = working + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+
+                    End Select
                 End If
-
-                Select Case shift_type
-
-                    Case "Sick leave - unpaid"
-                    Case "No show"
-                'Case "FREI"
-                    Case "Time off in lieu"
-                    Case "Holiday"
-                    Case "Anderes Haus übernimmt Schicht"
-                    Case "Bank holiday - off"
-                    Case "FREI // Kurzarbeit Ausgleich"
-                    Case Else
-                        '''''''''
-                        If records Is Nothing Then
-                            ReDim Preserve records(0)
-                            records(0) = New ShiftRecord
-                            records(0).Shift_date = CDate(value("date"))
-                            records(0).Shift_type = shift_type
-                            records(0).Shift_from = Strings.Right(value("startDateTime"), 5)
-                            records(0).Shift_to = Strings.Right(value("endDateTime"), 5)
-                            If Not breaks Is Nothing Then
-                                records(0).Shift_break_1_from = Strings.Right(Strings.Left(breaks(0), 16), 5)
-                                records(0).Shift_break_1_to = Strings.Right(Strings.Right(breaks(0), 16), 5)
-                                If breaks.Length > 1 Then
-                                    records(0).Shift_break_2_from = Strings.Right(Strings.Left(breaks(1), 16), 5)
-                                    records(0).Shift_break_2_to = Strings.Right(Strings.Right(breaks(1), 16), 5)
-                                End If
-                            End If
-                            records(0).Shift_length = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-                        Else
-                            ReDim Preserve records(UBound(records) + 1)
-                            records(UBound(records)) = New ShiftRecord
-                            records(UBound(records)).Shift_date = CDate(value("date"))
-                            records(UBound(records)).Shift_type = shift_type
-                            records(UBound(records)).Shift_from = Strings.Right(value("startDateTime"), 5)
-                            records(UBound(records)).Shift_to = Strings.Right(value("endDateTime"), 5)
-                            If Not breaks Is Nothing Then
-                                records(UBound(records)).Shift_break_1_from = Strings.Right(Strings.Left(breaks(0), 16), 5)
-                                records(UBound(records)).Shift_break_1_to = Strings.Right(Strings.Right(breaks(0), 16), 5)
-                                If breaks.Length > 1 Then
-                                    records(UBound(records)).Shift_break_2_from = Strings.Right(Strings.Left(breaks(1), 16), 5)
-                                    records(UBound(records)).Shift_break_2_to = Strings.Right(Strings.Right(breaks(1), 16), 5)
-                                End If
-                            End If
-                            records(UBound(records)).Shift_length = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-                        End If
-                        ''''''''''''''''
-                        working = working + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-
-                End Select
-
             Next
 
         Next
@@ -1451,6 +1473,14 @@ Public Class OvertimeForm
 
     End Function
 
+    Public Function FT_found_calculate(datum As Date, department_id As String) As Boolean
+        If (DateAndTime.Day(datum) = 25 Or DateAndTime.Day(datum) = 26) And Month(datum) = 12 Then
+            Return False
+        Else
+            Return departments_FT(department_id).Contains(datum)
+        End If
+    End Function
+
     Public Function FT_found(datum As Date, department_id As String) As Boolean
         Return departments_FT(department_id).Contains(datum)
     End Function
@@ -1497,62 +1527,63 @@ Public Class OvertimeForm
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
             For Each value In Parsed("data")
+                If (value.ContainsKey("startDateTime") And value.ContainsKey("endDateTime")) Then
 
-                If value.ContainsKey("shiftTypeId") Then
-                    shift_type = shift_types(value("shiftTypeId"))
-                Else
-                    shift_type = "Normal"
+                    If value.ContainsKey("shiftTypeId") Then
+                        shift_type = shift_types(value("shiftTypeId"))
+                    Else
+                        shift_type = "Normal"
+                    End If
+
+                    Select Case shift_type
+
+                        Case "Overtime"
+
+                            If value("status") <> "Approved" Then hours = hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+
+                        Case "Sick leave - Bank holiday"
+
+                            If value("status") <> "Approved" Then hours = hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+
+                        Case "Time off in lieu"
+
+                            If value("status") <> "Approved" Then hours = hours - shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+
+                        Case "Sick leave - unpaid"
+
+                            shift_start = TimeValue(Strings.Right(value("startDateTime"), 5)).ToOADate * 24
+                            shift_end = TimeValue(Strings.Right(value("endDateTime"), 5)).ToOADate * 24
+                            shift_start_date = CDate(Strings.Left(value("startDateTime"), Len(value("startDateTime")) - 6))
+                            shift_end_date = CDate(Strings.Left(value("endDateTime"), Len(value("endDateTime")) - 6))
+
+                            If shift_start > shift_end Then
+                                shift_length_hours = shift_end + 24 - shift_start
+
+                                If shift_end_date = LastDayOfMonth("SUN", DateSerial(Year(start_monday), 3, 1)) And shift_end > 3 Then
+                                    shift_length_hours = shift_length_hours - 1
+                                End If
+
+                                If shift_end_date = LastDayOfMonth("SUN", DateSerial(Year(start_monday), 10, 1)) And shift_end > 3 Then
+                                    shift_length_hours = shift_length_hours + 1
+                                End If
+
+                            Else
+                                shift_length_hours = shift_end - shift_start
+
+                                If shift_start_date = LastDayOfMonth("SUN", DateSerial(Year(start_monday), 3, 1)) And shift_end > 3 And shift_start < 3 Then
+                                    shift_length_hours = shift_length_hours - 1
+                                End If
+
+                                If shift_start_date = LastDayOfMonth("SUN", DateSerial(Year(start_monday), 10, 1)) And shift_end > 3 And shift_start < 3 Then
+                                    shift_length_hours = shift_length_hours + 1
+                                End If
+
+                            End If
+
+                            If value("status") <> "Approved" Then hours = hours - shift_length_hours
+
+                    End Select
                 End If
-
-                Select Case shift_type
-
-                    Case "Overtime"
-
-                        If value("status") <> "Approved" Then hours = hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-
-                    Case "Sick leave - Bank holiday"
-
-                        If value("status") <> "Approved" Then hours = hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-
-                    Case "Time off in lieu"
-
-                        If value("status") <> "Approved" Then hours = hours - shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-
-                    Case "Sick leave - unpaid"
-
-                        shift_start = TimeValue(Strings.Right(value("startDateTime"), 5)).ToOADate * 24
-                        shift_end = TimeValue(Strings.Right(value("endDateTime"), 5)).ToOADate * 24
-                        shift_start_date = CDate(Strings.Left(value("startDateTime"), Len(value("startDateTime")) - 6))
-                        shift_end_date = CDate(Strings.Left(value("endDateTime"), Len(value("endDateTime")) - 6))
-
-                        If shift_start > shift_end Then
-                            shift_length_hours = shift_end + 24 - shift_start
-
-                            If shift_end_date = LastDayOfMonth("SUN", DateSerial(Year(start_monday), 3, 1)) And shift_end > 3 Then
-                                shift_length_hours = shift_length_hours - 1
-                            End If
-
-                            If shift_end_date = LastDayOfMonth("SUN", DateSerial(Year(start_monday), 10, 1)) And shift_end > 3 Then
-                                shift_length_hours = shift_length_hours + 1
-                            End If
-
-                        Else
-                            shift_length_hours = shift_end - shift_start
-
-                            If shift_start_date = LastDayOfMonth("SUN", DateSerial(Year(start_monday), 3, 1)) And shift_end > 3 And shift_start < 3 Then
-                                shift_length_hours = shift_length_hours - 1
-                            End If
-
-                            If shift_start_date = LastDayOfMonth("SUN", DateSerial(Year(start_monday), 10, 1)) And shift_end > 3 And shift_start < 3 Then
-                                shift_length_hours = shift_length_hours + 1
-                            End If
-
-                        End If
-
-                        If value("status") <> "Approved" Then hours = hours - shift_length_hours
-
-                End Select
-
             Next
 
         Next
@@ -1643,6 +1674,124 @@ Public Class OvertimeForm
 
     End Sub
 
+    Public Function calculate_XMAS_125(var_start As String, var_end As String, department_id As String) As Double
+        Dim result As Double
+        Dim start_surcharges As Double
+        Dim end_surcharges As Double
+        Dim start_date As Date
+        Dim end_date As Date
+        Dim start_time As Double
+        Dim end_time As Double
+        Dim start_day As Integer
+        Dim end_day As Integer
+
+        start_surcharges = 14.0#
+
+        start_date = CDate(Strings.Left(var_start, 10))
+        end_date = CDate(Strings.Left(var_end, 10))
+
+        start_time = TimeValue(Replace(var_start, "T", " ")).ToOADate * 24
+        end_time = TimeValue(Replace(var_end, "T", " ")).ToOADate * 24
+        start_day = Weekday(CDate(Replace(var_start, "T", " ")), vbMonday)
+        end_day = Weekday(CDate(Replace(var_end, "T", " ")), vbMonday)
+
+        If start_day = end_day Then
+
+            If DateAndTime.Day(start_date) = 31 And Month(start_date) = 12 Then
+                If start_time <= start_surcharges And end_time > start_surcharges Then
+                    result = end_time - start_surcharges
+                End If
+
+                If start_time <= start_surcharges And end_time <= start_surcharges Then
+                    'do nothing
+                End If
+
+                If start_time > start_surcharges Then
+                    result = end_time - start_time
+                End If
+            End If
+
+        Else
+
+            If DateAndTime.Day(start_date) = 31 And Month(start_date) = 12 Then
+                If start_time <= start_surcharges Then
+                    result = 24 - start_surcharges
+                Else
+                    result = 24 - start_time
+                End If
+
+            End If
+
+        End If
+
+        Return result
+
+    End Function
+    Public Function calculate_XMAS_150(var_start As String, var_end As String, department_id As String) As Double
+        Dim result As Double
+        Dim start_surcharges As Double
+        Dim end_surcharges As Double
+        Dim start_date As Date
+        Dim end_date As Date
+        Dim start_time As Double
+        Dim end_time As Double
+        Dim start_day As Integer
+        Dim end_day As Integer
+
+        start_surcharges = 14.0#
+
+        start_date = CDate(Strings.Left(var_start, 10))
+        end_date = CDate(Strings.Left(var_end, 10))
+
+        start_time = TimeValue(Replace(var_start, "T", " ")).ToOADate * 24
+        end_time = TimeValue(Replace(var_end, "T", " ")).ToOADate * 24
+        start_day = Weekday(CDate(Replace(var_start, "T", " ")), vbMonday)
+        end_day = Weekday(CDate(Replace(var_end, "T", " ")), vbMonday)
+
+        If start_day = end_day Then
+            If (DateAndTime.Day(start_date) = 25 Or DateAndTime.Day(start_date) = 26) And Month(start_date) = 12 Then
+                result = end_time - start_time
+            End If
+
+            If DateAndTime.Day(start_date) = 24 And Month(start_date) = 12 Then
+                If start_time <= start_surcharges And end_time > start_surcharges Then
+                    result = end_time - start_surcharges
+                End If
+
+                If start_time <= start_surcharges And end_time <= start_surcharges Then
+                    'do nothing
+                End If
+
+                If start_time > start_surcharges Then
+                    result = end_time - start_time
+                End If
+            End If
+
+        Else
+            If (DateAndTime.Day(start_date) = 24 Or DateAndTime.Day(start_date) = 25) And Month(start_date) = 12 Then
+                If start_time <= start_surcharges Then
+                    result = 24 - start_surcharges + end_time
+                Else
+                    result = 24 - start_time + end_time
+                End If
+
+            End If
+
+            If DateAndTime.Day(start_date) = 26 And Month(start_date) = 12 Then
+                If start_time <= start_surcharges Then
+                    result = 24 - start_surcharges
+                Else
+                    result = 24 - start_time
+                End If
+
+            End If
+
+        End If
+
+        Return result
+
+    End Function
+
     Public Function calculate_sunday_FT(var_start As String, var_end As String, department_id As String) As Double
         Dim result As Double
         Dim start_date As Date
@@ -1661,15 +1810,15 @@ Public Class OvertimeForm
         end_day = Weekday(CDate(Replace(var_end, "T", " ")), vbMonday)
 
         If start_day = end_day Then
-            If start_day = 7 Or FT_found(start_date, department_id) Then
+            If start_day = 7 Or FT_found_calculate(start_date, department_id) Then
                 result = end_time - start_time
             Else
                 'do nothing
             End If
 
         Else
-            If start_day = 7 Or FT_found(start_date, department_id) Then
-                If end_day = 7 Or FT_found(end_date, department_id) Then
+            If start_day = 7 Or FT_found_calculate(start_date, department_id) Then
+                If end_day = 7 Or FT_found_calculate(end_date, department_id) Then
                     result = 24 - start_time + end_time
                 Else
                     result = 24 - start_time
@@ -1677,7 +1826,7 @@ Public Class OvertimeForm
 
             Else
 
-                If end_day = 7 Or FT_found(end_date, department_id) Then
+                If end_day = 7 Or FT_found_calculate(end_date, department_id) Then
                     result = end_time
                 Else
                     'do nothing
@@ -1718,7 +1867,7 @@ Public Class OvertimeForm
 
 
         If start_day = end_day Then
-            If start_day = 7 Or FT_found(start_date, department_id) Then
+            If start_day = 7 Or FT_found_calculate(start_date, department_id) Then
                 'do nothing
             Else
                 If start_time >= end_surcharges And end_time <= start_surcharges Then
@@ -1761,8 +1910,8 @@ Public Class OvertimeForm
 
 
         Else
-            If start_day = 7 Or FT_found(start_date, department_id) Then
-                If end_day = 7 Or FT_found(end_date, department_id) Then
+            If start_day = 7 Or FT_found_calculate(start_date, department_id) Then
+                If end_day = 7 Or FT_found_calculate(end_date, department_id) Then
                     'do nothing
                 Else
                     If end_time < end_surcharges Then
@@ -1774,7 +1923,7 @@ Public Class OvertimeForm
             Else
                 If start_time <= start_surcharges Then
 
-                    If end_day = 7 Or FT_found(end_date, department_id) Then
+                    If end_day = 7 Or FT_found_calculate(end_date, department_id) Then
                         result = 24 - start_surcharges
                     Else
                         If end_time < end_surcharges Then
@@ -1793,7 +1942,7 @@ Public Class OvertimeForm
                     End If
 
                 Else
-                    If end_day = 7 Or FT_found(end_date, department_id) Then
+                    If end_day = 7 Or FT_found_calculate(end_date, department_id) Then
                         result = 24 - start_time
                     Else
                         If end_time < end_surcharges Then
@@ -2030,7 +2179,11 @@ weiter:
                         Dim department_id As String
                         If Parsed_temp("data").ContainsKey("primaryDepartmentId") Then
                             department_id = Parsed_temp("data")("primaryDepartmentId")
-                            Return departments(department_id)
+                            If departments(department_id) = "Administration" Then
+                                Return "ALL"
+                            Else
+                                Return departments(department_id)
+                            End If
                             Exit Function
                         Else
                             Return "NONE"
@@ -2263,83 +2416,84 @@ weiter:
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
             For Each value In Parsed("data")
+                If (value.ContainsKey("startDateTime") And value.ContainsKey("endDateTime")) Then
 
-                If value.ContainsKey("shiftTypeId") Then
-                    shift_type = shift_types(value("shiftTypeId"))
-                Else
-                    shift_type = "Normal"
+                    If value.ContainsKey("shiftTypeId") Then
+                        shift_type = shift_types(value("shiftTypeId"))
+                    Else
+                        shift_type = "Normal"
+                    End If
+
+                    Select Case shift_type
+
+                        Case "Sick leave - unpaid"
+                        Case "No show"
+                        Case "FREI"
+                        Case "Time off in lieu"
+                        Case "Sick leave - paid"
+
+                            If working_days Is Nothing Then
+                                ReDim Preserve working_days(0)
+                                working_days(0) = CDate(Strings.Left(value("startDateTime"), 10))
+                            Else
+                                If Not working_days.Contains(CDate(Strings.Left(value("startDateTime"), 10))) Then
+                                    ReDim Preserve working_days(UBound(working_days) + 1)
+                                    working_days(UBound(working_days)) = CDate(Strings.Left(value("startDateTime"), 10))
+                                End If
+                            End If
+
+                            quarter_working_hours = quarter_working_hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+
+                        Case "Holiday"
+                        Case "Sick leave - Bank holiday"
+
+                            If working_days Is Nothing Then
+                                ReDim Preserve working_days(0)
+                                working_days(0) = CDate(Strings.Left(value("startDateTime"), 10))
+                            Else
+                                If Not working_days.Contains(CDate(Strings.Left(value("startDateTime"), 10))) Then
+                                    ReDim Preserve working_days(UBound(working_days) + 1)
+                                    working_days(UBound(working_days)) = CDate(Strings.Left(value("startDateTime"), 10))
+                                End If
+                            End If
+
+                            quarter_working_hours = quarter_working_hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+
+                        Case "Anderes Haus übernimmt Schicht"
+                        Case "Bank holiday - off"
+                        Case "Sick leave - child"
+
+                            If working_days Is Nothing Then
+                                ReDim Preserve working_days(0)
+                                working_days(0) = CDate(Strings.Left(value("startDateTime"), 10))
+                            Else
+                                If Not working_days.Contains(CDate(Strings.Left(value("startDateTime"), 10))) Then
+                                    ReDim Preserve working_days(UBound(working_days) + 1)
+                                    working_days(UBound(working_days)) = CDate(Strings.Left(value("startDateTime"), 10))
+                                End If
+                            End If
+
+                            quarter_working_hours = quarter_working_hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+
+                        Case "Unpaid leave"
+                        Case "FREI // Kurzarbeit Ausgleich"
+                        Case "Parental leave"
+                        Case Else
+
+                            If working_days Is Nothing Then
+                                ReDim Preserve working_days(0)
+                                working_days(0) = CDate(Strings.Left(value("startDateTime"), 10))
+                            Else
+                                If Not working_days.Contains(CDate(Strings.Left(value("startDateTime"), 10))) Then
+                                    ReDim Preserve working_days(UBound(working_days) + 1)
+                                    working_days(UBound(working_days)) = CDate(Strings.Left(value("startDateTime"), 10))
+                                End If
+                            End If
+
+                            quarter_working_hours = quarter_working_hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+
+                    End Select
                 End If
-
-                Select Case shift_type
-
-                    Case "Sick leave - unpaid"
-                    Case "No show"
-                    Case "FREI"
-                    Case "Time off in lieu"
-                    Case "Sick leave - paid"
-
-                        If working_days Is Nothing Then
-                            ReDim Preserve working_days(0)
-                            working_days(0) = CDate(Strings.Left(value("startDateTime"), 10))
-                        Else
-                            If Not working_days.Contains(CDate(Strings.Left(value("startDateTime"), 10))) Then
-                                ReDim Preserve working_days(UBound(working_days) + 1)
-                                working_days(UBound(working_days)) = CDate(Strings.Left(value("startDateTime"), 10))
-                            End If
-                        End If
-
-                        quarter_working_hours = quarter_working_hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-
-                    Case "Holiday"
-                    Case "Sick leave - Bank holiday"
-
-                        If working_days Is Nothing Then
-                            ReDim Preserve working_days(0)
-                            working_days(0) = CDate(Strings.Left(value("startDateTime"), 10))
-                        Else
-                            If Not working_days.Contains(CDate(Strings.Left(value("startDateTime"), 10))) Then
-                                ReDim Preserve working_days(UBound(working_days) + 1)
-                                working_days(UBound(working_days)) = CDate(Strings.Left(value("startDateTime"), 10))
-                            End If
-                        End If
-
-                        quarter_working_hours = quarter_working_hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-
-                    Case "Anderes Haus übernimmt Schicht"
-                    Case "Bank holiday - off"
-                    Case "Sick leave - child"
-
-                        If working_days Is Nothing Then
-                            ReDim Preserve working_days(0)
-                            working_days(0) = CDate(Strings.Left(value("startDateTime"), 10))
-                        Else
-                            If Not working_days.Contains(CDate(Strings.Left(value("startDateTime"), 10))) Then
-                                ReDim Preserve working_days(UBound(working_days) + 1)
-                                working_days(UBound(working_days)) = CDate(Strings.Left(value("startDateTime"), 10))
-                            End If
-                        End If
-
-                        quarter_working_hours = quarter_working_hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-
-                    Case "Unpaid leave"
-                    Case "FREI // Kurzarbeit Ausgleich"
-                    Case "Parental leave"
-                    Case Else
-
-                        If working_days Is Nothing Then
-                            ReDim Preserve working_days(0)
-                            working_days(0) = CDate(Strings.Left(value("startDateTime"), 10))
-                        Else
-                            If Not working_days.Contains(CDate(Strings.Left(value("startDateTime"), 10))) Then
-                                ReDim Preserve working_days(UBound(working_days) + 1)
-                                working_days(UBound(working_days)) = CDate(Strings.Left(value("startDateTime"), 10))
-                            End If
-                        End If
-
-                        quarter_working_hours = quarter_working_hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-
-                End Select
-
             Next
 
         Next
@@ -2373,54 +2527,326 @@ weiter:
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
             For Each value In Parsed("data")
-                Erase breaks
+                If (value.ContainsKey("startDateTime") And value.ContainsKey("endDateTime")) Then
 
-                breaks = return_breaks(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                    Erase breaks
 
-                If value.ContainsKey("shiftTypeId") Then
-                    shift_type = shift_types(value("shiftTypeId"))
-                Else
-                    shift_type = "Normal"
+                    breaks = return_breaks(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+
+                    If value.ContainsKey("shiftTypeId") Then
+                        shift_type = shift_types(value("shiftTypeId"))
+                    Else
+                        shift_type = "Normal"
+                    End If
+
+                    Select Case shift_type
+
+                        Case "Sick leave - unpaid"
+                        Case "No show"
+                        Case "FREI"
+                        Case "Time off in lieu"
+                        Case "Sick leave - paid"
+                        Case "Holiday"
+                        Case "Sick leave - Bank holiday"
+                        Case "Anderes Haus übernimmt Schicht"
+                        Case "Bank holiday - off"
+                        Case "Sick leave - child"
+                        Case "Unpaid leave"
+                        Case "FREI // Kurzarbeit Ausgleich"
+                        Case "Parental leave"
+                        Case Else
+
+                            last_3_months_sunday_FT_hours = last_3_months_sunday_FT_hours + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    last_3_months_sunday_FT_hours = last_3_months_sunday_FT_hours - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                Next
+                            End If
+
+                            last_3_months_night_hours = last_3_months_night_hours + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    last_3_months_night_hours = last_3_months_night_hours - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                Next
+                            End If
+
+                    End Select
                 End If
-
-                Select Case shift_type
-
-                    Case "Sick leave - unpaid"
-                    Case "No show"
-                    Case "FREI"
-                    Case "Time off in lieu"
-                    Case "Sick leave - paid"
-                    Case "Holiday"
-                    Case "Sick leave - Bank holiday"
-                    Case "Anderes Haus übernimmt Schicht"
-                    Case "Bank holiday - off"
-                    Case "Sick leave - child"
-                    Case "Unpaid leave"
-                    Case "FREI // Kurzarbeit Ausgleich"
-                    Case "Parental leave"
-                    Case Else
-
-                        last_3_months_sunday_FT_hours = last_3_months_sunday_FT_hours + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id)
-                        If Not breaks Is Nothing Then
-                            For Each break In breaks
-                                last_3_months_sunday_FT_hours = last_3_months_sunday_FT_hours - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
-                            Next
-                        End If
-
-                        last_3_months_night_hours = last_3_months_night_hours + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
-                        If Not breaks Is Nothing Then
-                            For Each break In breaks
-                                last_3_months_night_hours = last_3_months_night_hours - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
-                            Next
-                        End If
-
-                End Select
-
             Next
 
         Next
     End Sub
 
+    Public Sub calculate_All_XMAS(employee_id, department_id, senior, BirthDate)
+
+        Dim row_ As Integer
+        Dim breaks()
+        Dim Parsed As Dictionary(Of String, Object)
+        Dim value As Dictionary(Of String, Object)
+        Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
+        Dim temp_sunday As Double
+        Dim temp_night As Double
+        Dim temp_150 As Double
+        Dim temp_125 As Double
+
+        objhttp.open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & start_ & "&to=" & end_, False)
+        objhttp.setRequestHeader("Authorization", "Bearer " & api_token)
+        objhttp.setRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.send()
+        Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.responseText)
+
+        Dim shifts_count As Integer
+        If Parsed("paging").ContainsKey("total") Then shifts_count = Parsed("paging")("total")
+
+        For y = 0 To CInt(shifts_count / 50) '
+            objhttp.open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & start_ & "&to=" & end_ & "&offset=" & y * 50, False)
+            objhttp.setRequestHeader("Authorization", "Bearer " & api_token)
+            objhttp.setRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.send()
+            Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.responseText)
+
+            For Each value In Parsed("data")
+                If (value.ContainsKey("startDateTime") And value.ContainsKey("endDateTime")) Then
+
+                    Erase breaks
+
+                    breaks = return_breaks(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+
+                    Dim shift_type As String = ""
+
+                    If value.ContainsKey("shiftTypeId") Then
+                        shift_type = shift_types(value("shiftTypeId"))
+                    Else
+                        shift_type = "Normal"
+                    End If
+                    '''''''''''''''''''''''''''''
+
+                    If Not SheetExists(current_employee, report_workbooks(current_workbook)) Then
+                        report_workbooks(current_workbook).Worksheets.Add(current_employee)
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("A1").Value = "date"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("B1").Value = "shift type"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("C1").Value = "from"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("D1").Value = "to"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("E1").Value = "break1 from"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("F1").Value = "break1 to"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("G1").Value = "break2 from"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("H1").Value = "break2 to"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("I1").Value = "sunday"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("J1").Value = "night"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("K1").Value = "festive_50"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("L1").Value = "festive_25"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("M1").Value = "working"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("N1").Value = "paid_sick_leave"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("O1").Value = "sick_leave_sunday"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("P1").Value = "sick_leave_night"
+
+                        row_ = 2
+                    End If
+
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("A" & row_).Value = CDate(value("date"))
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("A" & row_).Style.NumberFormat.Format = "[$-de-DE]ddd dd/mm/yyyy"
+                    If Weekday(CDate(value("date")), vbMonday) = 7 Or FT_found(CDate(value("date")), department_id) Then
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("A" & row_).Style.Font.FontColor = XLColor.Red
+                    End If
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("B" & row_).Value = shift_type
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("C" & row_).Value = Strings.Right(value("startDateTime"), 5)
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("C" & row_).Style.NumberFormat.Format = "hh:mm"
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("D" & row_).Value = Strings.Right(value("endDateTime"), 5)
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("D" & row_).Style.NumberFormat.Format = "hh:mm"
+                    If Not breaks Is Nothing Then
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("E" & row_).Value = Strings.Right(Strings.Left(breaks(0), 16), 5)
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("E" & row_).Style.NumberFormat.Format = "hh:mm"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("F" & row_).Value = Strings.Right(Strings.Right(breaks(0), 16), 5)
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("F" & row_).Style.NumberFormat.Format = "hh:mm"
+                        If breaks.Length > 1 Then
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("G" & row_).Value = Strings.Right(Strings.Left(breaks(1), 16), 5)
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("G" & row_).Style.NumberFormat.Format = "hh:mm"
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("H" & row_).Value = Strings.Right(Strings.Right(breaks(1), 16), 5)
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("H" & row_).Style.NumberFormat.Format = "hh:mm"
+                        End If
+                    End If
+                    ''''''''''''''''''''''''''''''''
+                    Select Case shift_type
+
+                        Case "Sick leave - unpaid"
+                        Case "No show"
+                        Case "FREI"
+                        Case "Time off in lieu"
+                        Case "Sick leave - paid"
+
+                            sunday_FT_hours_krank = sunday_FT_hours_krank + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_150(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_125(value("startDateTime"), value("endDateTime"), department_id)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_sunday = temp_sunday + calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id) + calculate_XMAS_150(Strings.Left(break, 16), Strings.Right(break, 16), department_id) + calculate_XMAS_125(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                    ''''
+                                    sunday_FT_hours_krank = sunday_FT_hours_krank - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id) - calculate_XMAS_150(Strings.Left(break, 16), Strings.Right(break, 16), department_id) - calculate_XMAS_125(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                Next
+                            End If
+
+                            night_hours_krank = night_hours_krank + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_night = temp_night + calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                    ''''
+                                    night_hours_krank = night_hours_krank - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                Next
+                            End If
+
+                            working_hours_krank = working_hours_krank + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            '''''''''''
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("N" & row_).Value = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("O" & row_).Value = calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_150(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_125(value("startDateTime"), value("endDateTime"), department_id) - temp_sunday
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("P" & row_).Value = calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior) - temp_night
+                            temp_sunday = 0
+                            temp_night = 0
+                            temp_150 = 0
+                            temp_125 = 0
+                    '''''''''''
+                        Case "Holiday"
+                        Case "Sick leave - Bank holiday"
+
+                            sunday_FT_hours_krank = sunday_FT_hours_krank + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_150(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_125(value("startDateTime"), value("endDateTime"), department_id)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_sunday = temp_sunday + calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id) + calculate_XMAS_150(Strings.Left(break, 16), Strings.Right(break, 16), department_id) + calculate_XMAS_125(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                    ''''
+                                    sunday_FT_hours_krank = sunday_FT_hours_krank - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id) - calculate_XMAS_150(Strings.Left(break, 16), Strings.Right(break, 16), department_id) - calculate_XMAS_125(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                Next
+                            End If
+
+                            night_hours_krank = night_hours_krank + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_night = temp_night + calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                    ''''
+                                    night_hours_krank = night_hours_krank - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                Next
+                            End If
+
+                            working_hours_krank = working_hours_krank + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            '''''''''''
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("N" & row_).Value = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("O" & row_).Value = calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_150(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_125(value("startDateTime"), value("endDateTime"), department_id) - temp_sunday
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("P" & row_).Value = calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior) - temp_night
+                            temp_sunday = 0
+                            temp_night = 0
+                            temp_150 = 0
+                            temp_125 = 0
+                    '''''''''''
+                        Case "Anderes Haus übernimmt Schicht"
+                        Case "Bank holiday - off"
+                        Case "Sick leave - child"
+
+                            sunday_FT_hours_krank = sunday_FT_hours_krank + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_150(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_125(value("startDateTime"), value("endDateTime"), department_id)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_sunday = temp_sunday + calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id) + calculate_XMAS_150(Strings.Left(break, 16), Strings.Right(break, 16), department_id) + calculate_XMAS_125(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                    ''''
+                                    sunday_FT_hours_krank = sunday_FT_hours_krank - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id) - calculate_XMAS_150(Strings.Left(break, 16), Strings.Right(break, 16), department_id) - calculate_XMAS_125(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                Next
+                            End If
+
+                            night_hours_krank = night_hours_krank + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_night = temp_night + calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                    ''''
+                                    night_hours_krank = night_hours_krank - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                Next
+                            End If
+
+                            working_hours_krank = working_hours_krank + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            '''''''''''
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("N" & row_).Value = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("O" & row_).Value = calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_150(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_125(value("startDateTime"), value("endDateTime"), department_id) - temp_sunday
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("P" & row_).Value = calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior) - temp_night
+                            temp_sunday = 0
+                            temp_night = 0
+                            temp_150 = 0
+                            temp_125 = 0
+                    '''''''''''
+                        Case "Unpaid leave"
+                        Case "FREI // Kurzarbeit Ausgleich"
+                        Case "Parental leave"
+                        Case Else
+
+                            sunday_FT_hours = sunday_FT_hours + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id)
+                            XMAS_150 = XMAS_150 + calculate_XMAS_150(value("startDateTime"), value("endDateTime"), department_id)
+                            XMAS_125 = XMAS_125 + calculate_XMAS_125(value("startDateTime"), value("endDateTime"), department_id)
+
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_sunday = temp_sunday + calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                    temp_150 = temp_150 + calculate_XMAS_150(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                    temp_125 = temp_125 + calculate_XMAS_125(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                    ''''
+                                    sunday_FT_hours = sunday_FT_hours - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                    XMAS_150 = XMAS_150 - calculate_XMAS_150(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                    XMAS_125 = XMAS_125 - calculate_XMAS_125(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                Next
+                            End If
+
+                            night_hours = night_hours + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_night = temp_night + calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                    ''''
+                                    night_hours = night_hours - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                Next
+                            End If
+
+                            working_hours = working_hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            '''''''''''
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("M" & row_).Value = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("I" & row_).Value = calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) - temp_sunday
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("J" & row_).Value = calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior) - temp_night
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("K" & row_).Value = calculate_XMAS_150(value("startDateTime"), value("endDateTime"), department_id) - temp_150
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("L" & row_).Value = calculate_XMAS_125(value("startDateTime"), value("endDateTime"), department_id) - temp_125
+                            temp_sunday = 0
+                            temp_night = 0
+                            temp_150 = 0
+                            temp_125 = 0
+                            '''''''''''
+                    End Select
+                    ''''
+                    row_ = row_ + 1
+                    ''''
+                End If
+            Next
+        Next
+        '''''
+        Dim i As Integer
+        If row_ > 0 Then
+            Dim table As IXLTable = report_workbooks(current_workbook).Worksheet(current_employee).Range("$A$1:$P$" & row_ - 1).CreateTable(current_employee)
+            table.Theme = XLTableTheme.TableStyleLight8
+            table.ShowTotalsRow = True
+            table.Field(0).TotalsRowLabel = "Total"
+            report_workbooks(current_workbook).Worksheet(current_employee).Range("A" & row_).Style.Font.FontColor = XLColor.Black
+            For i = 8 To table.ColumnCount - 1
+                table.Field(i).TotalsRowFunction = XLTotalsRowFunction.Sum
+            Next
+
+            report_workbooks(current_workbook).Worksheet(current_employee).Columns("A:A").Width = 12.64
+            Dim max_length As Integer = 0
+            For Each cell In table.DataRange.Column(2).Cells
+                If Len(cell.GetFormattedString) > max_length Then max_length = Len(cell.GetFormattedString)
+            Next
+            report_workbooks(current_workbook).Worksheet(current_employee).Columns("B:B").Width = CalculateColumnWidth(max_length)
+            report_workbooks(current_workbook).Worksheet(current_employee).Columns("C:D").Width = 6.55
+            report_workbooks(current_workbook).Worksheet(current_employee).Columns("E:H").Width = 12.82
+            report_workbooks(current_workbook).Worksheet(current_employee).Columns("I:M").Width = 9.18
+            report_workbooks(current_workbook).Worksheet(current_employee).Columns("N:P").Width = 16.91
+        End If
+        ''''''
+    End Sub
     Public Sub calculate_All(employee_id, department_id, senior, BirthDate)
 
         Dim row_ As Integer
@@ -2448,198 +2874,201 @@ weiter:
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.responseText)
 
             For Each value In Parsed("data")
-                Erase breaks
+                If (value.ContainsKey("startDateTime") And value.ContainsKey("endDateTime")) Then
 
-                breaks = return_breaks(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                    Erase breaks
 
-                Dim shift_type As String = ""
+                    breaks = return_breaks(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
 
-                If value.ContainsKey("shiftTypeId") Then
-                    shift_type = shift_types(value("shiftTypeId"))
-                Else
-                    shift_type = "Normal"
-                End If
-                '''''''''''''''''''''''''''''
+                    Dim shift_type As String = ""
 
-                If Not SheetExists(current_employee, report_workbooks(current_workbook)) Then
-                    report_workbooks(current_workbook).Worksheets.Add(current_employee)
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("A1").Value = "date"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("B1").Value = "shift type"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("C1").Value = "from"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("D1").Value = "to"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("E1").Value = "break1 from"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("F1").Value = "break1 to"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("G1").Value = "break2 from"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("H1").Value = "break2 to"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("I1").Value = "sunday"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("J1").Value = "night"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("K1").Value = "working"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("L1").Value = "paid_sick_leave"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("M1").Value = "sick_leave_sunday"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("N1").Value = "sick_leave_night"
-
-                    row_ = 2
-                End If
-
-                report_workbooks(current_workbook).Worksheet(current_employee).Range("A" & row_).Value = CDate(value("date"))
-                report_workbooks(current_workbook).Worksheet(current_employee).Range("A" & row_).Style.NumberFormat.Format = "[$-de-DE]ddd dd/mm/yyyy"
-                If Weekday(CDate(value("date")), vbMonday) = 7 Or FT_found(CDate(value("date")), department_id) Then
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("A" & row_).Style.Font.FontColor = XLColor.Red
-                End If
-                report_workbooks(current_workbook).Worksheet(current_employee).Range("B" & row_).Value = shift_type
-                report_workbooks(current_workbook).Worksheet(current_employee).Range("C" & row_).Value = Strings.Right(value("startDateTime"), 5)
-                report_workbooks(current_workbook).Worksheet(current_employee).Range("C" & row_).Style.NumberFormat.Format = "hh:mm"
-                report_workbooks(current_workbook).Worksheet(current_employee).Range("D" & row_).Value = Strings.Right(value("endDateTime"), 5)
-                report_workbooks(current_workbook).Worksheet(current_employee).Range("D" & row_).Style.NumberFormat.Format = "hh:mm"
-                If Not breaks Is Nothing Then
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("E" & row_).Value = Strings.Right(Strings.Left(breaks(0), 16), 5)
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("E" & row_).Style.NumberFormat.Format = "hh:mm"
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("F" & row_).Value = Strings.Right(Strings.Right(breaks(0), 16), 5)
-                    report_workbooks(current_workbook).Worksheet(current_employee).Range("F" & row_).Style.NumberFormat.Format = "hh:mm"
-                    If breaks.Length > 1 Then
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("G" & row_).Value = Strings.Right(Strings.Left(breaks(1), 16), 5)
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("G" & row_).Style.NumberFormat.Format = "hh:mm"
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("H" & row_).Value = Strings.Right(Strings.Right(breaks(1), 16), 5)
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("H" & row_).Style.NumberFormat.Format = "hh:mm"
+                    If value.ContainsKey("shiftTypeId") Then
+                        shift_type = shift_types(value("shiftTypeId"))
+                    Else
+                        shift_type = "Normal"
                     End If
+                    '''''''''''''''''''''''''''''
+
+                    If Not SheetExists(current_employee, report_workbooks(current_workbook)) Then
+                        report_workbooks(current_workbook).Worksheets.Add(current_employee)
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("A1").Value = "date"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("B1").Value = "shift type"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("C1").Value = "from"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("D1").Value = "to"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("E1").Value = "break1 from"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("F1").Value = "break1 to"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("G1").Value = "break2 from"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("H1").Value = "break2 to"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("I1").Value = "sunday"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("J1").Value = "night"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("K1").Value = "working"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("L1").Value = "paid_sick_leave"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("M1").Value = "sick_leave_sunday"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("N1").Value = "sick_leave_night"
+
+                        row_ = 2
+                    End If
+
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("A" & row_).Value = CDate(value("date"))
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("A" & row_).Style.NumberFormat.Format = "[$-de-DE]ddd dd/mm/yyyy"
+                    If Weekday(CDate(value("date")), vbMonday) = 7 Or FT_found(CDate(value("date")), department_id) Then
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("A" & row_).Style.Font.FontColor = XLColor.Red
+                    End If
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("B" & row_).Value = shift_type
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("C" & row_).Value = Strings.Right(value("startDateTime"), 5)
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("C" & row_).Style.NumberFormat.Format = "hh:mm"
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("D" & row_).Value = Strings.Right(value("endDateTime"), 5)
+                    report_workbooks(current_workbook).Worksheet(current_employee).Range("D" & row_).Style.NumberFormat.Format = "hh:mm"
+                    If Not breaks Is Nothing Then
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("E" & row_).Value = Strings.Right(Strings.Left(breaks(0), 16), 5)
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("E" & row_).Style.NumberFormat.Format = "hh:mm"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("F" & row_).Value = Strings.Right(Strings.Right(breaks(0), 16), 5)
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("F" & row_).Style.NumberFormat.Format = "hh:mm"
+                        If breaks.Length > 1 Then
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("G" & row_).Value = Strings.Right(Strings.Left(breaks(1), 16), 5)
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("G" & row_).Style.NumberFormat.Format = "hh:mm"
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("H" & row_).Value = Strings.Right(Strings.Right(breaks(1), 16), 5)
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("H" & row_).Style.NumberFormat.Format = "hh:mm"
+                        End If
+                    End If
+                    ''''''''''''''''''''''''''''''''
+                    Select Case shift_type
+
+                        Case "Sick leave - unpaid"
+                        Case "No show"
+                        Case "FREI"
+                        Case "Time off in lieu"
+                        Case "Sick leave - paid"
+
+                            sunday_FT_hours_krank = sunday_FT_hours_krank + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_sunday = temp_sunday + calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                    ''''
+                                    sunday_FT_hours_krank = sunday_FT_hours_krank - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                Next
+                            End If
+
+                            night_hours_krank = night_hours_krank + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_night = temp_night + calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                    ''''
+                                    night_hours_krank = night_hours_krank - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                Next
+                            End If
+
+                            working_hours_krank = working_hours_krank + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            '''''''''''
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("L" & row_).Value = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("M" & row_).Value = calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) - temp_sunday
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("N" & row_).Value = calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior) - temp_night
+                            temp_sunday = 0
+                            temp_night = 0
+                    '''''''''''
+                        Case "Holiday"
+                        Case "Sick leave - Bank holiday"
+
+                            sunday_FT_hours_krank = sunday_FT_hours_krank + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_sunday = temp_sunday + calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                    ''''
+                                    sunday_FT_hours_krank = sunday_FT_hours_krank - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                Next
+                            End If
+
+                            night_hours_krank = night_hours_krank + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_night = temp_night + calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                    ''''
+                                    night_hours_krank = night_hours_krank - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                Next
+                            End If
+
+                            working_hours_krank = working_hours_krank + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            '''''''''''
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("L" & row_).Value = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("M" & row_).Value = calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) - temp_sunday
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("N" & row_).Value = calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior) - temp_night
+                            temp_sunday = 0
+                            temp_night = 0
+                    '''''''''''
+                        Case "Anderes Haus übernimmt Schicht"
+                        Case "Bank holiday - off"
+                        Case "Sick leave - child"
+
+                            sunday_FT_hours_krank = sunday_FT_hours_krank + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_sunday = temp_sunday + calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                    ''''
+                                    sunday_FT_hours_krank = sunday_FT_hours_krank - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                Next
+                            End If
+
+                            night_hours_krank = night_hours_krank + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_night = temp_night + calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                    ''''
+                                    night_hours_krank = night_hours_krank - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                Next
+                            End If
+
+                            working_hours_krank = working_hours_krank + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            '''''''''''
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("L" & row_).Value = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("M" & row_).Value = calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) - temp_sunday
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("N" & row_).Value = calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior) - temp_night
+                            temp_sunday = 0
+                            temp_night = 0
+                    '''''''''''
+                        Case "Unpaid leave"
+                        Case "FREI // Kurzarbeit Ausgleich"
+                        Case "Parental leave"
+                        Case Else
+
+                            sunday_FT_hours = sunday_FT_hours + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_sunday = temp_sunday + calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                    ''''
+                                    sunday_FT_hours = sunday_FT_hours - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
+                                Next
+                            End If
+
+                            night_hours = night_hours + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
+                            If Not breaks Is Nothing Then
+                                For Each break In breaks
+                                    ''''
+                                    temp_night = temp_night + calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                    ''''
+                                    night_hours = night_hours - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
+                                Next
+                            End If
+
+                            working_hours = working_hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            '''''''''''
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("K" & row_).Value = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("I" & row_).Value = calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) - temp_sunday
+                            report_workbooks(current_workbook).Worksheet(current_employee).Range("J" & row_).Value = calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior) - temp_night
+                            temp_sunday = 0
+                            temp_night = 0
+                            '''''''''''
+                    End Select
+                    ''''
+                    row_ = row_ + 1
+                    ''''
                 End If
-                ''''''''''''''''''''''''''''''''
-                Select Case shift_type
-
-                    Case "Sick leave - unpaid"
-                    Case "No show"
-                    Case "FREI"
-                    Case "Time off in lieu"
-                    Case "Sick leave - paid"
-
-                        sunday_FT_hours_krank = sunday_FT_hours_krank + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id)
-                        If Not breaks Is Nothing Then
-                            For Each break In breaks
-                                ''''
-                                temp_sunday = temp_sunday + calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
-                                ''''
-                                sunday_FT_hours_krank = sunday_FT_hours_krank - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
-                            Next
-                        End If
-
-                        night_hours_krank = night_hours_krank + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
-                        If Not breaks Is Nothing Then
-                            For Each break In breaks
-                                ''''
-                                temp_night = temp_night + calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
-                                ''''
-                                night_hours_krank = night_hours_krank - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
-                            Next
-                        End If
-
-                        working_hours_krank = working_hours_krank + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-                        '''''''''''
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("L" & row_).Value = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("M" & row_).Value = calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) - temp_sunday
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("N" & row_).Value = calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior) - temp_night
-                        temp_sunday = 0
-                        temp_night = 0
-                    '''''''''''
-                    Case "Holiday"
-                    Case "Sick leave - Bank holiday"
-
-                        sunday_FT_hours_krank = sunday_FT_hours_krank + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id)
-                        If Not breaks Is Nothing Then
-                            For Each break In breaks
-                                ''''
-                                temp_sunday = temp_sunday + calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
-                                ''''
-                                sunday_FT_hours_krank = sunday_FT_hours_krank - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
-                            Next
-                        End If
-
-                        night_hours_krank = night_hours_krank + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
-                        If Not breaks Is Nothing Then
-                            For Each break In breaks
-                                ''''
-                                temp_night = temp_night + calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
-                                ''''
-                                night_hours_krank = night_hours_krank - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
-                            Next
-                        End If
-
-                        working_hours_krank = working_hours_krank + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-                        '''''''''''
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("L" & row_).Value = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("M" & row_).Value = calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) - temp_sunday
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("N" & row_).Value = calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior) - temp_night
-                        temp_sunday = 0
-                        temp_night = 0
-                    '''''''''''
-                    Case "Anderes Haus übernimmt Schicht"
-                    Case "Bank holiday - off"
-                    Case "Sick leave - child"
-
-                        sunday_FT_hours_krank = sunday_FT_hours_krank + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id)
-                        If Not breaks Is Nothing Then
-                            For Each break In breaks
-                                ''''
-                                temp_sunday = temp_sunday + calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
-                                ''''
-                                sunday_FT_hours_krank = sunday_FT_hours_krank - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
-                            Next
-                        End If
-
-                        night_hours_krank = night_hours_krank + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
-                        If Not breaks Is Nothing Then
-                            For Each break In breaks
-                                ''''
-                                temp_night = temp_night + calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
-                                ''''
-                                night_hours_krank = night_hours_krank - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
-                            Next
-                        End If
-
-                        working_hours_krank = working_hours_krank + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-                        '''''''''''
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("L" & row_).Value = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("M" & row_).Value = calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) - temp_sunday
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("N" & row_).Value = calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior) - temp_night
-                        temp_sunday = 0
-                        temp_night = 0
-                    '''''''''''
-                    Case "Unpaid leave"
-                    Case "FREI // Kurzarbeit Ausgleich"
-                    Case "Parental leave"
-                    Case Else
-
-                        sunday_FT_hours = sunday_FT_hours + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id)
-                        If Not breaks Is Nothing Then
-                            For Each break In breaks
-                                ''''
-                                temp_sunday = temp_sunday + calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
-                                ''''
-                                sunday_FT_hours = sunday_FT_hours - calculate_sunday_FT(Strings.Left(break, 16), Strings.Right(break, 16), department_id)
-                            Next
-                        End If
-
-                        night_hours = night_hours + calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior)
-                        If Not breaks Is Nothing Then
-                            For Each break In breaks
-                                ''''
-                                temp_night = temp_night + calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
-                                ''''
-                                night_hours = night_hours - calculate_night(Strings.Left(break, 16), Strings.Right(break, 16), department_id, senior)
-                            Next
-                        End If
-
-                        working_hours = working_hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-                        '''''''''''
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("K" & row_).Value = shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("I" & row_).Value = calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) - temp_sunday
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("J" & row_).Value = calculate_night(value("startDateTime"), value("endDateTime"), department_id, senior) - temp_night
-                        temp_sunday = 0
-                        temp_night = 0
-                        '''''''''''
-                End Select
-                ''''
-                row_ = row_ + 1
-                ''''
             Next
         Next
         '''''

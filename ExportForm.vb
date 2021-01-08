@@ -285,7 +285,11 @@ Public Class ExportForm
                                selected_month = 12 Then
                                 table = shWorkSheet.Range("$A$1:$AE$51").CreateTable("export")
                             Else
-                                table = shWorkSheet.Range("$A$1:$AB$51").CreateTable("export")
+                                If selected_month = 1 Then
+                                    table = shWorkSheet.Range("$A$1:$AD$51").CreateTable("export")
+                                Else
+                                    table = shWorkSheet.Range("$A$1:$AB$51").CreateTable("export")
+                                End If
                             End If
                             table.ShowTotalsRow = True
                             table.Field(0).TotalsRowLabel = "Total"
@@ -306,18 +310,36 @@ Public Class ExportForm
                             shWorkSheet.Range("N1").Value = "Night surcharge"
                             shWorkSheet.Range("O1").Value = "Night hours"
                             shWorkSheet.Range("P1").Value = "Night payment"
-                            shWorkSheet.Range("Q1").Value = "105 hours"
-                            shWorkSheet.Range("R1").Value = "All shifts approved"
-                            shWorkSheet.Range("S1").Value = "420 payment"
-                            shWorkSheet.Range("T1").Value = "420 Sunday hours"
-                            shWorkSheet.Range("U1").Value = "420 Night hours"
-                            shWorkSheet.Range("V1").Value = "Paid leave sunday hours"
-                            shWorkSheet.Range("W1").Value = "Sickness sunday hours"
-                            shWorkSheet.Range("X1").Value = "Paid leave night hours"
-                            shWorkSheet.Range("Y1").Value = "Sickness night hours"
-                            shWorkSheet.Range("Z1").Value = "Last 3 months Sunday hours"
-                            shWorkSheet.Range("AA1").Value = "Last 3 months Night hours"
-                            shWorkSheet.Range("AB1").Value = "Paid leave days"
+                            If selected_month = 1 Then
+                                shWorkSheet.Range("Q1").Value = "festive 50%"
+                                shWorkSheet.Range("R1").Value = "festive 255"
+                                shWorkSheet.Range("S1").Value = "105 hours"
+                                shWorkSheet.Range("T1").Value = "All shifts approved"
+                                shWorkSheet.Range("U1").Value = "420 payment"
+                                shWorkSheet.Range("V1").Value = "420 Sunday hours"
+                                shWorkSheet.Range("W1").Value = "420 Night hours"
+                                shWorkSheet.Range("X1").Value = "Paid leave sunday hours"
+                                shWorkSheet.Range("Y1").Value = "Sickness sunday hours"
+                                shWorkSheet.Range("Z1").Value = "Paid leave night hours"
+                                shWorkSheet.Range("AA1").Value = "Sickness night hours"
+                                shWorkSheet.Range("AB1").Value = "Last 3 months Sunday hours"
+                                shWorkSheet.Range("AC1").Value = "Last 3 months Night hours"
+                                shWorkSheet.Range("AD1").Value = "Paid leave days"
+                            Else
+                                shWorkSheet.Range("Q1").Value = "105 hours"
+                                shWorkSheet.Range("R1").Value = "All shifts approved"
+                                shWorkSheet.Range("S1").Value = "420 payment"
+                                shWorkSheet.Range("T1").Value = "420 Sunday hours"
+                                shWorkSheet.Range("U1").Value = "420 Night hours"
+                                shWorkSheet.Range("V1").Value = "Paid leave sunday hours"
+                                shWorkSheet.Range("W1").Value = "Sickness sunday hours"
+                                shWorkSheet.Range("X1").Value = "Paid leave night hours"
+                                shWorkSheet.Range("Y1").Value = "Sickness night hours"
+                                shWorkSheet.Range("Z1").Value = "Last 3 months Sunday hours"
+                                shWorkSheet.Range("AA1").Value = "Last 3 months Night hours"
+                                shWorkSheet.Range("AB1").Value = "Paid leave days"
+                            End If
+
 
                             If selected_month = 3 Or
                                selected_month = 6 Or
@@ -357,29 +379,60 @@ Public Class ExportForm
                             table.DataRange.Column(14).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
                             table.DataRange.Column(15).Style.NumberFormat.Format = "General;;"
                             table.DataRange.Column(16).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
-                            table.DataRange.Column(17).Style.NumberFormat.Format = "General;;"
-                            table.DataRange.Column(19).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
-                            table.DataRange.Column(20).Style.NumberFormat.Format = "0.00;;"
-                            table.DataRange.Column(21).Style.NumberFormat.Format = "0.00;;"
-                            table.DataRange.Column(22).Style.NumberFormat.Format = "0.00;;"
-                            table.DataRange.Column(23).Style.NumberFormat.Format = "General;;"
-                            table.DataRange.Column(24).Style.NumberFormat.Format = "0.00;;"
-                            table.DataRange.Column(25).Style.NumberFormat.Format = "General;;"
-                            table.DataRange.Column(26).Style.NumberFormat.Format = "General;;"
-                            table.DataRange.Column(27).Style.NumberFormat.Format = "General;;"
-                            table.DataRange.Column(28).Style.NumberFormat.Format = "General;;"
-                            OvertimeForm.format_yellow(table.DataRange.Column(12).AsRange)
-                            OvertimeForm.format_yellow(table.DataRange.Column(16).AsRange)
-                            OvertimeForm.format_yellow(table.DataRange.Column(19).AsRange)
-                            table.DataRange.Column(12).Style.Font.Bold = True
-                            table.DataRange.Column(16).Style.Font.Bold = True
-                            table.DataRange.Column(19).Style.Font.Bold = True
-                            OvertimeForm.format_blue(table.DataRange.Column(11).AsRange)
-                            OvertimeForm.format_blue(table.DataRange.Column(15).AsRange)
-                            OvertimeForm.format_blue(table.DataRange.Column(20).AsRange)
-                            OvertimeForm.format_blue(table.DataRange.Column(21).AsRange)
-                            table.DataRange.Column(18).Style.Border.LeftBorder = XLBorderStyleValues.Thin
-                            table.DataRange.Column(18).Style.Border.RightBorder = XLBorderStyleValues.Thin
+                            If selected_month = 1 Then
+                                table.DataRange.Column(17).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(18).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(19).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(21).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
+                                table.DataRange.Column(22).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(23).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(24).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(25).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(26).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(27).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(28).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(29).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(30).Style.NumberFormat.Format = "General;;"
+                                OvertimeForm.format_yellow(table.DataRange.Column(12).AsRange)
+                                OvertimeForm.format_yellow(table.DataRange.Column(16).AsRange)
+                                OvertimeForm.format_yellow(table.DataRange.Column(21).AsRange)
+                                table.DataRange.Column(12).Style.Font.Bold = True
+                                table.DataRange.Column(16).Style.Font.Bold = True
+                                table.DataRange.Column(21).Style.Font.Bold = True
+                                OvertimeForm.format_blue(table.DataRange.Column(11).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(15).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(17).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(18).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(22).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(23).AsRange)
+                                table.DataRange.Column(20).Style.Border.LeftBorder = XLBorderStyleValues.Thin
+                                table.DataRange.Column(20).Style.Border.RightBorder = XLBorderStyleValues.Thin
+                            Else
+                                table.DataRange.Column(17).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(19).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
+                                table.DataRange.Column(20).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(21).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(22).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(23).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(24).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(25).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(26).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(27).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(28).Style.NumberFormat.Format = "General;;"
+                                OvertimeForm.format_yellow(table.DataRange.Column(12).AsRange)
+                                OvertimeForm.format_yellow(table.DataRange.Column(16).AsRange)
+                                OvertimeForm.format_yellow(table.DataRange.Column(19).AsRange)
+                                table.DataRange.Column(12).Style.Font.Bold = True
+                                table.DataRange.Column(16).Style.Font.Bold = True
+                                table.DataRange.Column(19).Style.Font.Bold = True
+                                OvertimeForm.format_blue(table.DataRange.Column(11).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(15).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(20).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(21).AsRange)
+                                table.DataRange.Column(18).Style.Border.LeftBorder = XLBorderStyleValues.Thin
+                                table.DataRange.Column(18).Style.Border.RightBorder = XLBorderStyleValues.Thin
+
+                            End If
                             table.Theme = XLTableTheme.TableStyleLight8
 
                             OvertimeForm.format_white_borders(table.HeadersRow().Cells())
@@ -392,6 +445,8 @@ Public Class ExportForm
                         '''''''
 
                         sunday_FT_hours = 0
+                        XMAS_150 = 0
+                        XMAS_125 = 0
                         night_hours = 0
                         working_hours = 0
                         working_hours_krank = 0
@@ -459,9 +514,17 @@ Public Class ExportForm
                         End If
                         current_workbook = hotel
                         OvertimeForm.calculate_last_3_months(value("id"), Values, senior, If(value.ContainsKey("birthDate"), value("birthDate"), ""))
-                        OvertimeForm.calculate_All(value("id"), Values, senior, If(value.ContainsKey("birthDate"), value("birthDate"), ""))
+
+                        If selected_month = 1 Then
+                            OvertimeForm.calculate_All_XMAS(value("id"), Values, senior, If(value.ContainsKey("birthDate"), value("birthDate"), ""))
+                        Else
+                            OvertimeForm.calculate_All(value("id"), Values, senior, If(value.ContainsKey("birthDate"), value("birthDate"), ""))
+                        End If
+
 
                         sunday_FT_hours = Math.Round(sunday_FT_hours, 2)
+                        XMAS_150 = Math.Round(XMAS_150, 2)
+                        XMAS_125 = Math.Round(XMAS_125, 2)
                         night_hours = Math.Round(night_hours, 2)
                         working_hours = Math.Round(working_hours, 2)
                         working_hours_krank = Math.Round(working_hours_krank, 2)
@@ -510,22 +573,45 @@ Public Class ExportForm
                             report_workbooks(hotel).Worksheet("Exported data").Cell(row, 14).Value = 2
                         End If
                         report_workbooks(hotel).Worksheet("Exported data").Cell(row, 15).Value = night_hours
-                        If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
-                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = working_hours + working_hours_krank
-                            OvertimeForm.format_blue(report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).AsRange)
-                        End If ''''
-                        If OvertimeForm.all_shifts_approved(value("id"), Values) Then
-                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "YES"
-                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Green
+
+                        If selected_month = 1 Then
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = XMAS_150
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = XMAS_125
+                            If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 19).Value = working_hours + working_hours_krank
+                                OvertimeForm.format_blue(report_workbooks(hotel).Worksheet("Exported data").Cell(row, 19).AsRange)
+                            End If ''''
+                            If OvertimeForm.all_shifts_approved(value("id"), Values) Then
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Value = "YES"
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Style.Fill.BackgroundColor = XLColor.Green
+                            Else
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Value = "NO"
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Style.Fill.BackgroundColor = XLColor.Red
+                            End If
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 25).Value = sunday_FT_hours_krank
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = night_hours_krank
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = last_3_months_sunday_FT_hours
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 29).Value = last_3_months_night_hours
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 30).Value = OvertimeForm.paid_leave_days(value("id"))
                         Else
-                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "NO"
-                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Red
+                            If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = working_hours + working_hours_krank
+                                OvertimeForm.format_blue(report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).AsRange)
+                            End If ''''
+                            If OvertimeForm.all_shifts_approved(value("id"), Values) Then
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "YES"
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Green
+                            Else
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "NO"
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Red
+                            End If
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 23).Value = sunday_FT_hours_krank
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 25).Value = night_hours_krank
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 26).Value = last_3_months_sunday_FT_hours
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = last_3_months_night_hours
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = OvertimeForm.paid_leave_days(value("id"))
                         End If
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 23).Value = sunday_FT_hours_krank
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 25).Value = night_hours_krank
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 26).Value = last_3_months_sunday_FT_hours
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = last_3_months_night_hours
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = OvertimeForm.paid_leave_days(value("id"))
+
                         If selected_month = 3 Or
                            selected_month = 6 Or
                            selected_month = 9 Or
@@ -599,6 +685,8 @@ Public Class ExportForm
                     Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
                     sunday_FT_hours = 0
+                    XMAS_150 = 0
+                    XMAS_125 = 0
                     night_hours = 0
                     working_hours = 0
                     working_hours_krank = 0
@@ -665,10 +753,16 @@ Public Class ExportForm
                     End If
                     current_workbook = hotel
                     OvertimeForm.calculate_last_3_months(item_found, Item, senior, If(Parsed("data").ContainsKey("birthDate"), Parsed("data")("birthDate"), ""))
-                    OvertimeForm.calculate_All(item_found, Item, senior, If(Parsed("data").ContainsKey("birthDate"), Parsed("data")("birthDate"), ""))
+                    If selected_month = 1 Then
+                        OvertimeForm.calculate_All_XMAS(item_found, Item, senior, If(Parsed("data").ContainsKey("birthDate"), Parsed("data")("birthDate"), ""))
+                    Else
+                        OvertimeForm.calculate_All(item_found, Item, senior, If(Parsed("data").ContainsKey("birthDate"), Parsed("data")("birthDate"), ""))
+                    End If
 
 
                     sunday_FT_hours = Math.Round(sunday_FT_hours, 2)
+                    XMAS_150 = Math.Round(XMAS_150, 2)
+                    XMAS_125 = Math.Round(XMAS_125, 2)
                     night_hours = Math.Round(night_hours, 2)
                     working_hours = Math.Round(working_hours, 2)
                     working_hours_krank = Math.Round(working_hours_krank, 2)
@@ -715,22 +809,45 @@ Public Class ExportForm
                         report_workbooks(hotel).Worksheet("Exported data").Cell(row, 14).Value = 2
                     End If
                     report_workbooks(hotel).Worksheet("Exported data").Cell(row, 15).Value = night_hours
-                    If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = working_hours + working_hours_krank
-                        OvertimeForm.format_blue(report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).AsRange)
-                    End If
-                    If OvertimeForm.all_shifts_approved(item_found, Item) Then
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "YES"
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Green
+
+                    If selected_month = 1 Then
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = XMAS_150
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = XMAS_125
+                        If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 19).Value = working_hours + working_hours_krank
+                            OvertimeForm.format_blue(report_workbooks(hotel).Worksheet("Exported data").Cell(row, 19).AsRange)
+                        End If
+                        If OvertimeForm.all_shifts_approved(item_found, Item) Then
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Value = "YES"
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Style.Fill.BackgroundColor = XLColor.Green
+                        Else
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Value = "NO"
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Style.Fill.BackgroundColor = XLColor.Red
+                        End If
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 25).Value = sunday_FT_hours_krank
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = night_hours_krank
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = last_3_months_sunday_FT_hours
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 29).Value = last_3_months_night_hours
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Value = OvertimeForm.paid_leave_days(item_found)
                     Else
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "NO"
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Red
+                        If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = working_hours + working_hours_krank
+                            OvertimeForm.format_blue(report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).AsRange)
+                        End If
+                        If OvertimeForm.all_shifts_approved(item_found, Item) Then
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "YES"
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Green
+                        Else
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "NO"
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Red
+                        End If
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 23).Value = sunday_FT_hours_krank
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 25).Value = night_hours_krank
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 26).Value = last_3_months_sunday_FT_hours
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = last_3_months_night_hours
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = OvertimeForm.paid_leave_days(item_found)
                     End If
-                    report_workbooks(hotel).Worksheet("Exported data").Cell(row, 23).Value = sunday_FT_hours_krank
-                    report_workbooks(hotel).Worksheet("Exported data").Cell(row, 25).Value = night_hours_krank
-                    report_workbooks(hotel).Worksheet("Exported data").Cell(row, 26).Value = last_3_months_sunday_FT_hours
-                    report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = last_3_months_night_hours
-                    report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = OvertimeForm.paid_leave_days(item_found)
+
                     If selected_month = 3 Or
                        selected_month = 6 Or
                        selected_month = 9 Or
@@ -772,11 +889,20 @@ Public Class ExportForm
             report_workbooks(workbook_name).Worksheet("Exported data").Columns("K:L").Width = 10
             report_workbooks(workbook_name).Worksheet("Exported data").Columns("M:N").Width = 11
             report_workbooks(workbook_name).Worksheet("Exported data").Columns("O:P").Width = 10
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("Q:Q").Width = 7.7
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("R:U").Width = 11
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("V:AA").Width = 16
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("AB:AB").Width = 11
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("AC:AE").Width = 16.5
+            If selected_month = 1 Then
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("Q:R").Width = 10
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("S:S").Width = 7.7
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("T:W").Width = 11
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("X:AC").Width = 16
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("AD:AD").Width = 11
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("AE:AG").Width = 16.5
+            Else
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("Q:Q").Width = 7.7
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("R:U").Width = 11
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("V:AA").Width = 16
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("AB:AB").Width = 11
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("AC:AE").Width = 16.5
+            End If
 
             report_workbooks(workbook_name).Worksheet("Exported data").Table("export").SetAutoFilter.Column(1).NotEqualTo(Of String)("")
             report_workbooks(workbook_name).Worksheet("Exported data").Table("export").AutoFilter.Sort(3, XLSortOrder.Ascending)
@@ -794,35 +920,68 @@ Public Class ExportForm
                 formula_row = formula_row + 1
             Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(19).Cells
-                cell.FormulaA1 = "=IF(OR(C" & formula_row & "="""",AND(T" & formula_row & "=0,U" & formula_row & "=0)),"""",T" & formula_row & "*J" & formula_row & "+U" & formula_row & "*N" & formula_row & ")"
-                formula_row = formula_row + 1
-            Next
+            If selected_month = 1 Then
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(21).Cells
+                    cell.FormulaA1 = "=IF(OR(C" & formula_row & "="""",AND(V" & formula_row & "=0,W" & formula_row & "=0)),"""",V" & formula_row & "*J" & formula_row & "+W" & formula_row & "*N" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(22).Cells
-                cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",Z" & formula_row & "/65*(AB" & formula_row & "))"
-                formula_row = formula_row + 1
-            Next
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(24).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",AB" & formula_row & "/65*(AD" & formula_row & "))"
+                    formula_row = formula_row + 1
+                Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(24).Cells
-                cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",AA" & formula_row & "/65*(AB" & formula_row & "))"
-                formula_row = formula_row + 1
-            Next
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(26).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",AC" & formula_row & "/65*(AD" & formula_row & "))"
+                    formula_row = formula_row + 1
+                Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(20).Cells
-                cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",V" & formula_row & "+W" & formula_row & ")"
-                formula_row = formula_row + 1
-            Next
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(22).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",X" & formula_row & "+Y" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(21).Cells
-                cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",X" & formula_row & "+Y" & formula_row & ")"
-                formula_row = formula_row + 1
-            Next
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(23).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",Z" & formula_row & "+AA" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
+            Else
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(19).Cells
+                    cell.FormulaA1 = "=IF(OR(C" & formula_row & "="""",AND(T" & formula_row & "=0,U" & formula_row & "=0)),"""",T" & formula_row & "*J" & formula_row & "+U" & formula_row & "*N" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
+
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(22).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",Z" & formula_row & "/65*(AB" & formula_row & "))"
+                    formula_row = formula_row + 1
+                Next
+
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(24).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",AA" & formula_row & "/65*(AB" & formula_row & "))"
+                    formula_row = formula_row + 1
+                Next
+
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(20).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",V" & formula_row & "+W" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
+
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(21).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",X" & formula_row & "+Y" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
+
+            End If
 
             If report_workbooks(workbook_name).Worksheet("Exported data").Table("export").Columns.Count = 31 Then
                 formula_row = 2
@@ -976,7 +1135,11 @@ Public Class ExportForm
                                selected_month = 12 Then
                                 table = shWorkSheet.Range("$A$1:$AE$51").CreateTable("export")
                             Else
-                                table = shWorkSheet.Range("$A$1:$AB$51").CreateTable("export")
+                                If selected_month = 1 Then
+                                    table = shWorkSheet.Range("$A$1:$AD$51").CreateTable("export")
+                                Else
+                                    table = shWorkSheet.Range("$A$1:$AB$51").CreateTable("export")
+                                End If
                             End If
                             table.ShowTotalsRow = True
                             table.Field(0).TotalsRowLabel = "Total"
@@ -997,18 +1160,36 @@ Public Class ExportForm
                             shWorkSheet.Range("N1").Value = "Night surcharge"
                             shWorkSheet.Range("O1").Value = "Night hours"
                             shWorkSheet.Range("P1").Value = "Night payment"
-                            shWorkSheet.Range("Q1").Value = "105 hours"
-                            shWorkSheet.Range("R1").Value = "All shifts approved"
-                            shWorkSheet.Range("S1").Value = "420 payment"
-                            shWorkSheet.Range("T1").Value = "420 Sunday hours"
-                            shWorkSheet.Range("U1").Value = "420 Night hours"
-                            shWorkSheet.Range("V1").Value = "Paid leave sunday hours"
-                            shWorkSheet.Range("W1").Value = "Sickness sunday hours"
-                            shWorkSheet.Range("X1").Value = "Paid leave night hours"
-                            shWorkSheet.Range("Y1").Value = "Sickness night hours"
-                            shWorkSheet.Range("Z1").Value = "Last 3 months Sunday hours"
-                            shWorkSheet.Range("AA1").Value = "Last 3 months Night hours"
-                            shWorkSheet.Range("AB1").Value = "Paid leave days"
+                            If selected_month = 1 Then
+                                shWorkSheet.Range("Q1").Value = "festive 50%"
+                                shWorkSheet.Range("R1").Value = "festive 255"
+                                shWorkSheet.Range("S1").Value = "105 hours"
+                                shWorkSheet.Range("T1").Value = "All shifts approved"
+                                shWorkSheet.Range("U1").Value = "420 payment"
+                                shWorkSheet.Range("V1").Value = "420 Sunday hours"
+                                shWorkSheet.Range("W1").Value = "420 Night hours"
+                                shWorkSheet.Range("X1").Value = "Paid leave sunday hours"
+                                shWorkSheet.Range("Y1").Value = "Sickness sunday hours"
+                                shWorkSheet.Range("Z1").Value = "Paid leave night hours"
+                                shWorkSheet.Range("AA1").Value = "Sickness night hours"
+                                shWorkSheet.Range("AB1").Value = "Last 3 months Sunday hours"
+                                shWorkSheet.Range("AC1").Value = "Last 3 months Night hours"
+                                shWorkSheet.Range("AD1").Value = "Paid leave days"
+                            Else
+                                shWorkSheet.Range("Q1").Value = "105 hours"
+                                shWorkSheet.Range("R1").Value = "All shifts approved"
+                                shWorkSheet.Range("S1").Value = "420 payment"
+                                shWorkSheet.Range("T1").Value = "420 Sunday hours"
+                                shWorkSheet.Range("U1").Value = "420 Night hours"
+                                shWorkSheet.Range("V1").Value = "Paid leave sunday hours"
+                                shWorkSheet.Range("W1").Value = "Sickness sunday hours"
+                                shWorkSheet.Range("X1").Value = "Paid leave night hours"
+                                shWorkSheet.Range("Y1").Value = "Sickness night hours"
+                                shWorkSheet.Range("Z1").Value = "Last 3 months Sunday hours"
+                                shWorkSheet.Range("AA1").Value = "Last 3 months Night hours"
+                                shWorkSheet.Range("AB1").Value = "Paid leave days"
+                            End If
+
 
                             If selected_month = 3 Or
                                selected_month = 6 Or
@@ -1048,29 +1229,60 @@ Public Class ExportForm
                             table.DataRange.Column(14).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
                             table.DataRange.Column(15).Style.NumberFormat.Format = "General;;"
                             table.DataRange.Column(16).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
-                            table.DataRange.Column(17).Style.NumberFormat.Format = "General;;"
-                            table.DataRange.Column(19).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
-                            table.DataRange.Column(20).Style.NumberFormat.Format = "0.00;;"
-                            table.DataRange.Column(21).Style.NumberFormat.Format = "0.00;;"
-                            table.DataRange.Column(22).Style.NumberFormat.Format = "0.00;;"
-                            table.DataRange.Column(23).Style.NumberFormat.Format = "General;;"
-                            table.DataRange.Column(24).Style.NumberFormat.Format = "0.00;;"
-                            table.DataRange.Column(25).Style.NumberFormat.Format = "General;;"
-                            table.DataRange.Column(26).Style.NumberFormat.Format = "General;;"
-                            table.DataRange.Column(27).Style.NumberFormat.Format = "General;;"
-                            table.DataRange.Column(28).Style.NumberFormat.Format = "General;;"
-                            OvertimeForm.format_yellow(table.DataRange.Column(12).AsRange)
-                            OvertimeForm.format_yellow(table.DataRange.Column(16).AsRange)
-                            OvertimeForm.format_yellow(table.DataRange.Column(19).AsRange)
-                            table.DataRange.Column(12).Style.Font.Bold = True
-                            table.DataRange.Column(16).Style.Font.Bold = True
-                            table.DataRange.Column(19).Style.Font.Bold = True
-                            OvertimeForm.format_blue(table.DataRange.Column(11).AsRange)
-                            OvertimeForm.format_blue(table.DataRange.Column(15).AsRange)
-                            OvertimeForm.format_blue(table.DataRange.Column(20).AsRange)
-                            OvertimeForm.format_blue(table.DataRange.Column(21).AsRange)
-                            table.DataRange.Column(18).Style.Border.LeftBorder = XLBorderStyleValues.Thin
-                            table.DataRange.Column(18).Style.Border.RightBorder = XLBorderStyleValues.Thin
+                            If selected_month = 1 Then
+                                table.DataRange.Column(17).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(18).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(19).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(21).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
+                                table.DataRange.Column(22).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(23).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(24).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(25).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(26).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(27).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(28).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(29).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(30).Style.NumberFormat.Format = "General;;"
+                                OvertimeForm.format_yellow(table.DataRange.Column(12).AsRange)
+                                OvertimeForm.format_yellow(table.DataRange.Column(16).AsRange)
+                                OvertimeForm.format_yellow(table.DataRange.Column(21).AsRange)
+                                table.DataRange.Column(12).Style.Font.Bold = True
+                                table.DataRange.Column(16).Style.Font.Bold = True
+                                table.DataRange.Column(21).Style.Font.Bold = True
+                                OvertimeForm.format_blue(table.DataRange.Column(11).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(15).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(17).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(18).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(22).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(23).AsRange)
+                                table.DataRange.Column(20).Style.Border.LeftBorder = XLBorderStyleValues.Thin
+                                table.DataRange.Column(20).Style.Border.RightBorder = XLBorderStyleValues.Thin
+                            Else
+                                table.DataRange.Column(17).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(19).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
+                                table.DataRange.Column(20).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(21).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(22).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(23).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(24).Style.NumberFormat.Format = "0.00;;"
+                                table.DataRange.Column(25).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(26).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(27).Style.NumberFormat.Format = "General;;"
+                                table.DataRange.Column(28).Style.NumberFormat.Format = "General;;"
+                                OvertimeForm.format_yellow(table.DataRange.Column(12).AsRange)
+                                OvertimeForm.format_yellow(table.DataRange.Column(16).AsRange)
+                                OvertimeForm.format_yellow(table.DataRange.Column(19).AsRange)
+                                table.DataRange.Column(12).Style.Font.Bold = True
+                                table.DataRange.Column(16).Style.Font.Bold = True
+                                table.DataRange.Column(19).Style.Font.Bold = True
+                                OvertimeForm.format_blue(table.DataRange.Column(11).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(15).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(20).AsRange)
+                                OvertimeForm.format_blue(table.DataRange.Column(21).AsRange)
+                                table.DataRange.Column(18).Style.Border.LeftBorder = XLBorderStyleValues.Thin
+                                table.DataRange.Column(18).Style.Border.RightBorder = XLBorderStyleValues.Thin
+
+                            End If
                             table.Theme = XLTableTheme.TableStyleLight8
 
                             OvertimeForm.format_white_borders(table.HeadersRow().Cells())
@@ -1083,6 +1295,8 @@ Public Class ExportForm
                         '''''''
 
                         sunday_FT_hours = 0
+                        XMAS_150 = 0
+                        XMAS_125 = 0
                         night_hours = 0
                         working_hours = 0
                         working_hours_krank = 0
@@ -1150,9 +1364,15 @@ Public Class ExportForm
                         End If
                         current_workbook = hotel
                         OvertimeForm.calculate_last_3_months(value("id"), Values, senior, If(value.ContainsKey("birthDate"), value("birthDate"), ""))
-                        OvertimeForm.calculate_All(value("id"), Values, senior, If(value.ContainsKey("birthDate"), value("birthDate"), ""))
+                        If selected_month = 1 Then
+                            OvertimeForm.calculate_All_XMAS(value("id"), Values, senior, If(value.ContainsKey("birthDate"), value("birthDate"), ""))
+                        Else
+                            OvertimeForm.calculate_All(value("id"), Values, senior, If(value.ContainsKey("birthDate"), value("birthDate"), ""))
+                        End If
 
                         sunday_FT_hours = Math.Round(sunday_FT_hours, 2)
+                        XMAS_150 = Math.Round(XMAS_150, 2)
+                        XMAS_125 = Math.Round(XMAS_125, 2)
                         night_hours = Math.Round(night_hours, 2)
                         working_hours = Math.Round(working_hours, 2)
                         working_hours_krank = Math.Round(working_hours_krank, 2)
@@ -1201,22 +1421,45 @@ Public Class ExportForm
                             report_workbooks(hotel).Worksheet("Exported data").Cell(row, 14).Value = 2
                         End If
                         report_workbooks(hotel).Worksheet("Exported data").Cell(row, 15).Value = night_hours
-                        If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
-                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = working_hours + working_hours_krank
-                            OvertimeForm.format_blue(report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).AsRange)
-                        End If ''''
-                        If OvertimeForm.all_shifts_approved(value("id"), Values) Then
-                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "YES"
-                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Green
+
+                        If selected_month = 1 Then
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = XMAS_150
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = XMAS_125
+                            If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 19).Value = working_hours + working_hours_krank
+                                OvertimeForm.format_blue(report_workbooks(hotel).Worksheet("Exported data").Cell(row, 19).AsRange)
+                            End If ''''
+                            If OvertimeForm.all_shifts_approved(value("id"), Values) Then
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Value = "YES"
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Style.Fill.BackgroundColor = XLColor.Green
+                            Else
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Value = "NO"
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Style.Fill.BackgroundColor = XLColor.Red
+                            End If
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 25).Value = sunday_FT_hours_krank
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = night_hours_krank
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = last_3_months_sunday_FT_hours
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 29).Value = last_3_months_night_hours
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 30).Value = OvertimeForm.paid_leave_days(value("id"))
                         Else
-                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "NO"
-                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Red
+                            If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = working_hours + working_hours_krank
+                                OvertimeForm.format_blue(report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).AsRange)
+                            End If ''''
+                            If OvertimeForm.all_shifts_approved(value("id"), Values) Then
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "YES"
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Green
+                            Else
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "NO"
+                                report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Red
+                            End If
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 23).Value = sunday_FT_hours_krank
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 25).Value = night_hours_krank
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 26).Value = last_3_months_sunday_FT_hours
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = last_3_months_night_hours
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = OvertimeForm.paid_leave_days(value("id"))
                         End If
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 23).Value = sunday_FT_hours_krank
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 25).Value = night_hours_krank
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 26).Value = last_3_months_sunday_FT_hours
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = last_3_months_night_hours
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = OvertimeForm.paid_leave_days(value("id"))
+
                         If selected_month = 3 Or
                            selected_month = 6 Or
                            selected_month = 9 Or
@@ -1260,11 +1503,20 @@ Public Class ExportForm
             report_workbooks(workbook_name).Worksheet("Exported data").Columns("K:L").Width = 10
             report_workbooks(workbook_name).Worksheet("Exported data").Columns("M:N").Width = 11
             report_workbooks(workbook_name).Worksheet("Exported data").Columns("O:P").Width = 10
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("Q:Q").Width = 7.7
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("R:U").Width = 11
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("V:AA").Width = 16
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("AB:AB").Width = 11
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("AC:AE").Width = 16.5
+            If selected_month = 1 Then
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("Q:R").Width = 10
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("S:S").Width = 7.7
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("T:W").Width = 11
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("X:AC").Width = 16
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("AD:AD").Width = 11
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("AE:AG").Width = 16.5
+            Else
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("Q:Q").Width = 7.7
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("R:U").Width = 11
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("V:AA").Width = 16
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("AB:AB").Width = 11
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("AC:AE").Width = 16.5
+            End If
 
             report_workbooks(workbook_name).Worksheet("Exported data").Table("export").SetAutoFilter.Column(1).NotEqualTo(Of String)("")
             report_workbooks(workbook_name).Worksheet("Exported data").Table("export").AutoFilter.Sort(3, XLSortOrder.Ascending)
@@ -1282,35 +1534,68 @@ Public Class ExportForm
                 formula_row = formula_row + 1
             Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(19).Cells
-                cell.FormulaA1 = "=IF(OR(C" & formula_row & "="""",AND(T" & formula_row & "=0,U" & formula_row & "=0)),"""",T" & formula_row & "*J" & formula_row & "+U" & formula_row & "*N" & formula_row & ")"
-                formula_row = formula_row + 1
-            Next
+            If selected_month = 1 Then
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(21).Cells
+                    cell.FormulaA1 = "=IF(OR(C" & formula_row & "="""",AND(V" & formula_row & "=0,W" & formula_row & "=0)),"""",V" & formula_row & "*J" & formula_row & "+W" & formula_row & "*N" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(22).Cells
-                cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",Z" & formula_row & "/65*(AB" & formula_row & "))"
-                formula_row = formula_row + 1
-            Next
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(24).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",AB" & formula_row & "/65*(AD" & formula_row & "))"
+                    formula_row = formula_row + 1
+                Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(24).Cells
-                cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",AA" & formula_row & "/65*(AB" & formula_row & "))"
-                formula_row = formula_row + 1
-            Next
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(26).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",AC" & formula_row & "/65*(AD" & formula_row & "))"
+                    formula_row = formula_row + 1
+                Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(20).Cells
-                cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",V" & formula_row & "+W" & formula_row & ")"
-                formula_row = formula_row + 1
-            Next
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(22).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",X" & formula_row & "+Y" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(21).Cells
-                cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",X" & formula_row & "+Y" & formula_row & ")"
-                formula_row = formula_row + 1
-            Next
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(23).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",Z" & formula_row & "+AA" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
+            Else
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(19).Cells
+                    cell.FormulaA1 = "=IF(OR(C" & formula_row & "="""",AND(T" & formula_row & "=0,U" & formula_row & "=0)),"""",T" & formula_row & "*J" & formula_row & "+U" & formula_row & "*N" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
+
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(22).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",Z" & formula_row & "/65*(AB" & formula_row & "))"
+                    formula_row = formula_row + 1
+                Next
+
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(24).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",AA" & formula_row & "/65*(AB" & formula_row & "))"
+                    formula_row = formula_row + 1
+                Next
+
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(20).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",V" & formula_row & "+W" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
+
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(21).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",X" & formula_row & "+Y" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
+
+            End If
 
             If report_workbooks(workbook_name).Worksheet("Exported data").Table("export").Columns.Count = 31 Then
                 formula_row = 2
@@ -1463,12 +1748,16 @@ Public Class ExportForm
                     Dim table As IXLTable
 
                     If selected_month = 3 Or
-                       selected_month = 6 Or
-                       selected_month = 9 Or
-                       selected_month = 12 Then
+                               selected_month = 6 Or
+                               selected_month = 9 Or
+                               selected_month = 12 Then
                         table = shWorkSheet.Range("$A$1:$AE$51").CreateTable("export")
                     Else
-                        table = shWorkSheet.Range("$A$1:$AB$51").CreateTable("export")
+                        If selected_month = 1 Then
+                            table = shWorkSheet.Range("$A$1:$AD$51").CreateTable("export")
+                        Else
+                            table = shWorkSheet.Range("$A$1:$AB$51").CreateTable("export")
+                        End If
                     End If
                     table.ShowTotalsRow = True
                     table.Field(0).TotalsRowLabel = "Total"
@@ -1489,23 +1778,41 @@ Public Class ExportForm
                     shWorkSheet.Range("N1").Value = "Night surcharge"
                     shWorkSheet.Range("O1").Value = "Night hours"
                     shWorkSheet.Range("P1").Value = "Night payment"
-                    shWorkSheet.Range("Q1").Value = "105 hours"
-                    shWorkSheet.Range("R1").Value = "All shifts approved"
-                    shWorkSheet.Range("S1").Value = "420 payment"
-                    shWorkSheet.Range("T1").Value = "420 Sunday hours"
-                    shWorkSheet.Range("U1").Value = "420 Night hours"
-                    shWorkSheet.Range("V1").Value = "Paid leave sunday hours"
-                    shWorkSheet.Range("W1").Value = "Sickness sunday hours"
-                    shWorkSheet.Range("X1").Value = "Paid leave night hours"
-                    shWorkSheet.Range("Y1").Value = "Sickness night hours"
-                    shWorkSheet.Range("Z1").Value = "Last 3 months Sunday hours"
-                    shWorkSheet.Range("AA1").Value = "Last 3 months Night hours"
-                    shWorkSheet.Range("AB1").Value = "Paid leave days"
+                    If selected_month = 1 Then
+                        shWorkSheet.Range("Q1").Value = "festive 50%"
+                        shWorkSheet.Range("R1").Value = "festive 255"
+                        shWorkSheet.Range("S1").Value = "105 hours"
+                        shWorkSheet.Range("T1").Value = "All shifts approved"
+                        shWorkSheet.Range("U1").Value = "420 payment"
+                        shWorkSheet.Range("V1").Value = "420 Sunday hours"
+                        shWorkSheet.Range("W1").Value = "420 Night hours"
+                        shWorkSheet.Range("X1").Value = "Paid leave sunday hours"
+                        shWorkSheet.Range("Y1").Value = "Sickness sunday hours"
+                        shWorkSheet.Range("Z1").Value = "Paid leave night hours"
+                        shWorkSheet.Range("AA1").Value = "Sickness night hours"
+                        shWorkSheet.Range("AB1").Value = "Last 3 months Sunday hours"
+                        shWorkSheet.Range("AC1").Value = "Last 3 months Night hours"
+                        shWorkSheet.Range("AD1").Value = "Paid leave days"
+                    Else
+                        shWorkSheet.Range("Q1").Value = "105 hours"
+                        shWorkSheet.Range("R1").Value = "All shifts approved"
+                        shWorkSheet.Range("S1").Value = "420 payment"
+                        shWorkSheet.Range("T1").Value = "420 Sunday hours"
+                        shWorkSheet.Range("U1").Value = "420 Night hours"
+                        shWorkSheet.Range("V1").Value = "Paid leave sunday hours"
+                        shWorkSheet.Range("W1").Value = "Sickness sunday hours"
+                        shWorkSheet.Range("X1").Value = "Paid leave night hours"
+                        shWorkSheet.Range("Y1").Value = "Sickness night hours"
+                        shWorkSheet.Range("Z1").Value = "Last 3 months Sunday hours"
+                        shWorkSheet.Range("AA1").Value = "Last 3 months Night hours"
+                        shWorkSheet.Range("AB1").Value = "Paid leave days"
+                    End If
+
 
                     If selected_month = 3 Or
-                       selected_month = 6 Or
-                       selected_month = 9 Or
-                       selected_month = 12 Then
+                               selected_month = 6 Or
+                               selected_month = 9 Or
+                               selected_month = 12 Then
 
                         Select Case selected_month
                             Case 3
@@ -1540,29 +1847,60 @@ Public Class ExportForm
                     table.DataRange.Column(14).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
                     table.DataRange.Column(15).Style.NumberFormat.Format = "General;;"
                     table.DataRange.Column(16).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
-                    table.DataRange.Column(17).Style.NumberFormat.Format = "General;;"
-                    table.DataRange.Column(19).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
-                    table.DataRange.Column(20).Style.NumberFormat.Format = "0.00;;"
-                    table.DataRange.Column(21).Style.NumberFormat.Format = "0.00;;"
-                    table.DataRange.Column(22).Style.NumberFormat.Format = "0.00;;"
-                    table.DataRange.Column(23).Style.NumberFormat.Format = "General;;"
-                    table.DataRange.Column(24).Style.NumberFormat.Format = "0.00;;"
-                    table.DataRange.Column(25).Style.NumberFormat.Format = "General;;"
-                    table.DataRange.Column(26).Style.NumberFormat.Format = "General;;"
-                    table.DataRange.Column(27).Style.NumberFormat.Format = "General;;"
-                    table.DataRange.Column(28).Style.NumberFormat.Format = "General;;"
-                    OvertimeForm.format_yellow(table.DataRange.Column(12).AsRange)
-                    OvertimeForm.format_yellow(table.DataRange.Column(16).AsRange)
-                    OvertimeForm.format_yellow(table.DataRange.Column(19).AsRange)
-                    table.DataRange.Column(12).Style.Font.Bold = True
-                    table.DataRange.Column(16).Style.Font.Bold = True
-                    table.DataRange.Column(19).Style.Font.Bold = True
-                    OvertimeForm.format_blue(table.DataRange.Column(11).AsRange)
-                    OvertimeForm.format_blue(table.DataRange.Column(15).AsRange)
-                    OvertimeForm.format_blue(table.DataRange.Column(20).AsRange)
-                    OvertimeForm.format_blue(table.DataRange.Column(21).AsRange)
-                    table.DataRange.Column(18).Style.Border.LeftBorder = XLBorderStyleValues.Thin
-                    table.DataRange.Column(18).Style.Border.RightBorder = XLBorderStyleValues.Thin
+                    If selected_month = 1 Then
+                        table.DataRange.Column(17).Style.NumberFormat.Format = "General;;"
+                        table.DataRange.Column(18).Style.NumberFormat.Format = "General;;"
+                        table.DataRange.Column(19).Style.NumberFormat.Format = "General;;"
+                        table.DataRange.Column(21).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
+                        table.DataRange.Column(22).Style.NumberFormat.Format = "0.00;;"
+                        table.DataRange.Column(23).Style.NumberFormat.Format = "0.00;;"
+                        table.DataRange.Column(24).Style.NumberFormat.Format = "0.00;;"
+                        table.DataRange.Column(25).Style.NumberFormat.Format = "General;;"
+                        table.DataRange.Column(26).Style.NumberFormat.Format = "0.00;;"
+                        table.DataRange.Column(27).Style.NumberFormat.Format = "General;;"
+                        table.DataRange.Column(28).Style.NumberFormat.Format = "General;;"
+                        table.DataRange.Column(29).Style.NumberFormat.Format = "General;;"
+                        table.DataRange.Column(30).Style.NumberFormat.Format = "General;;"
+                        OvertimeForm.format_yellow(table.DataRange.Column(12).AsRange)
+                        OvertimeForm.format_yellow(table.DataRange.Column(16).AsRange)
+                        OvertimeForm.format_yellow(table.DataRange.Column(21).AsRange)
+                        table.DataRange.Column(12).Style.Font.Bold = True
+                        table.DataRange.Column(16).Style.Font.Bold = True
+                        table.DataRange.Column(21).Style.Font.Bold = True
+                        OvertimeForm.format_blue(table.DataRange.Column(11).AsRange)
+                        OvertimeForm.format_blue(table.DataRange.Column(15).AsRange)
+                        OvertimeForm.format_blue(table.DataRange.Column(17).AsRange)
+                        OvertimeForm.format_blue(table.DataRange.Column(18).AsRange)
+                        OvertimeForm.format_blue(table.DataRange.Column(22).AsRange)
+                        OvertimeForm.format_blue(table.DataRange.Column(23).AsRange)
+                        table.DataRange.Column(20).Style.Border.LeftBorder = XLBorderStyleValues.Thin
+                        table.DataRange.Column(20).Style.Border.RightBorder = XLBorderStyleValues.Thin
+                    Else
+                        table.DataRange.Column(17).Style.NumberFormat.Format = "General;;"
+                        table.DataRange.Column(19).Style.NumberFormat.Format = "#,##0.00 [$€-de-DE]"
+                        table.DataRange.Column(20).Style.NumberFormat.Format = "0.00;;"
+                        table.DataRange.Column(21).Style.NumberFormat.Format = "0.00;;"
+                        table.DataRange.Column(22).Style.NumberFormat.Format = "0.00;;"
+                        table.DataRange.Column(23).Style.NumberFormat.Format = "General;;"
+                        table.DataRange.Column(24).Style.NumberFormat.Format = "0.00;;"
+                        table.DataRange.Column(25).Style.NumberFormat.Format = "General;;"
+                        table.DataRange.Column(26).Style.NumberFormat.Format = "General;;"
+                        table.DataRange.Column(27).Style.NumberFormat.Format = "General;;"
+                        table.DataRange.Column(28).Style.NumberFormat.Format = "General;;"
+                        OvertimeForm.format_yellow(table.DataRange.Column(12).AsRange)
+                        OvertimeForm.format_yellow(table.DataRange.Column(16).AsRange)
+                        OvertimeForm.format_yellow(table.DataRange.Column(19).AsRange)
+                        table.DataRange.Column(12).Style.Font.Bold = True
+                        table.DataRange.Column(16).Style.Font.Bold = True
+                        table.DataRange.Column(19).Style.Font.Bold = True
+                        OvertimeForm.format_blue(table.DataRange.Column(11).AsRange)
+                        OvertimeForm.format_blue(table.DataRange.Column(15).AsRange)
+                        OvertimeForm.format_blue(table.DataRange.Column(20).AsRange)
+                        OvertimeForm.format_blue(table.DataRange.Column(21).AsRange)
+                        table.DataRange.Column(18).Style.Border.LeftBorder = XLBorderStyleValues.Thin
+                        table.DataRange.Column(18).Style.Border.RightBorder = XLBorderStyleValues.Thin
+
+                    End If
                     table.Theme = XLTableTheme.TableStyleLight8
 
                     OvertimeForm.format_white_borders(table.HeadersRow().Cells())
@@ -1585,6 +1923,8 @@ Public Class ExportForm
                     Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.responseText)
 
                     sunday_FT_hours = 0
+                    XMAS_150 = 0
+                    XMAS_125 = 0
                     night_hours = 0
                     working_hours = 0
                     working_hours_krank = 0
@@ -1651,10 +1991,15 @@ Public Class ExportForm
                     End If
                     current_workbook = hotel
                     OvertimeForm.calculate_last_3_months(item_found, Item, senior, If(Parsed("data").ContainsKey("birthDate"), Parsed("data")("birthDate"), ""))
-                    OvertimeForm.calculate_All(item_found, Item, senior, If(Parsed("data").ContainsKey("birthDate"), Parsed("data")("birthDate"), ""))
-
+                    If selected_month = 1 Then
+                        OvertimeForm.calculate_All_XMAS(item_found, Item, senior, If(Parsed("data").ContainsKey("birthDate"), Parsed("data")("birthDate"), ""))
+                    Else
+                        OvertimeForm.calculate_All(item_found, Item, senior, If(Parsed("data").ContainsKey("birthDate"), Parsed("data")("birthDate"), ""))
+                    End If
 
                     sunday_FT_hours = Math.Round(sunday_FT_hours, 2)
+                    XMAS_150 = Math.Round(XMAS_150, 2)
+                    XMAS_125 = Math.Round(XMAS_125, 2)
                     night_hours = Math.Round(night_hours, 2)
                     working_hours = Math.Round(working_hours, 2)
                     working_hours_krank = Math.Round(working_hours_krank, 2)
@@ -1701,22 +2046,45 @@ Public Class ExportForm
                         report_workbooks(hotel).Worksheet("Exported data").Cell(row, 14).Value = 2
                     End If
                     report_workbooks(hotel).Worksheet("Exported data").Cell(row, 15).Value = night_hours
-                    If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = working_hours + working_hours_krank
-                        OvertimeForm.format_blue(report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).AsRange)
-                    End If
-                    If OvertimeForm.all_shifts_approved(item_found, Item) Then
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "YES"
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Green
+
+                    If selected_month = 1 Then
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = XMAS_150
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = XMAS_125
+                        If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 19).Value = working_hours + working_hours_krank
+                            OvertimeForm.format_blue(report_workbooks(hotel).Worksheet("Exported data").Cell(row, 19).AsRange)
+                        End If
+                        If OvertimeForm.all_shifts_approved(item_found, Item) Then
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Value = "YES"
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Style.Fill.BackgroundColor = XLColor.Green
+                        Else
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Value = "NO"
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Style.Fill.BackgroundColor = XLColor.Red
+                        End If
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 25).Value = sunday_FT_hours_krank
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = night_hours_krank
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = last_3_months_sunday_FT_hours
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 29).Value = last_3_months_night_hours
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Value = OvertimeForm.paid_leave_days(item_found)
                     Else
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "NO"
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Red
+                        If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = working_hours + working_hours_krank
+                            OvertimeForm.format_blue(report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).AsRange)
+                        End If
+                        If OvertimeForm.all_shifts_approved(item_found, Item) Then
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "YES"
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Green
+                        Else
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Value = "NO"
+                            report_workbooks(hotel).Worksheet("Exported data").Cell(row, 18).Style.Fill.BackgroundColor = XLColor.Red
+                        End If
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 23).Value = sunday_FT_hours_krank
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 25).Value = night_hours_krank
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 26).Value = last_3_months_sunday_FT_hours
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = last_3_months_night_hours
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = OvertimeForm.paid_leave_days(item_found)
                     End If
-                    report_workbooks(hotel).Worksheet("Exported data").Cell(row, 23).Value = sunday_FT_hours_krank
-                    report_workbooks(hotel).Worksheet("Exported data").Cell(row, 25).Value = night_hours_krank
-                    report_workbooks(hotel).Worksheet("Exported data").Cell(row, 26).Value = last_3_months_sunday_FT_hours
-                    report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = last_3_months_night_hours
-                    report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = OvertimeForm.paid_leave_days(item_found)
+
                     If selected_month = 3 Or
                        selected_month = 6 Or
                        selected_month = 9 Or
@@ -1758,11 +2126,20 @@ Public Class ExportForm
             report_workbooks(workbook_name).Worksheet("Exported data").Columns("K:L").Width = 10
             report_workbooks(workbook_name).Worksheet("Exported data").Columns("M:N").Width = 11
             report_workbooks(workbook_name).Worksheet("Exported data").Columns("O:P").Width = 10
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("Q:Q").Width = 7.7
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("R:U").Width = 11
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("V:AA").Width = 16
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("AB:AB").Width = 11
-            report_workbooks(workbook_name).Worksheet("Exported data").Columns("AC:AE").Width = 16.5
+            If selected_month = 1 Then
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("Q:R").Width = 10
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("S:S").Width = 7.7
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("T:W").Width = 11
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("X:AC").Width = 16
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("AD:AD").Width = 11
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("AE:AG").Width = 16.5
+            Else
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("Q:Q").Width = 7.7
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("R:U").Width = 11
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("V:AA").Width = 16
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("AB:AB").Width = 11
+                report_workbooks(workbook_name).Worksheet("Exported data").Columns("AC:AE").Width = 16.5
+            End If
 
             report_workbooks(workbook_name).Worksheet("Exported data").Table("export").SetAutoFilter.Column(1).NotEqualTo(Of String)("")
             report_workbooks(workbook_name).Worksheet("Exported data").Table("export").AutoFilter.Sort(3, XLSortOrder.Ascending)
@@ -1780,35 +2157,68 @@ Public Class ExportForm
                 formula_row = formula_row + 1
             Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(19).Cells
-                cell.FormulaA1 = "=IF(OR(C" & formula_row & "="""",AND(T" & formula_row & "=0,U" & formula_row & "=0)),"""",T" & formula_row & "*J" & formula_row & "+U" & formula_row & "*N" & formula_row & ")"
-                formula_row = formula_row + 1
-            Next
+            If selected_month = 1 Then
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(21).Cells
+                    cell.FormulaA1 = "=IF(OR(C" & formula_row & "="""",AND(V" & formula_row & "=0,W" & formula_row & "=0)),"""",V" & formula_row & "*J" & formula_row & "+W" & formula_row & "*N" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(22).Cells
-                cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",Z" & formula_row & "/65*(AB" & formula_row & "))"
-                formula_row = formula_row + 1
-            Next
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(24).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",AB" & formula_row & "/65*(AD" & formula_row & "))"
+                    formula_row = formula_row + 1
+                Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(24).Cells
-                cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",AA" & formula_row & "/65*(AB" & formula_row & "))"
-                formula_row = formula_row + 1
-            Next
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(26).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",AC" & formula_row & "/65*(AD" & formula_row & "))"
+                    formula_row = formula_row + 1
+                Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(20).Cells
-                cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",V" & formula_row & "+W" & formula_row & ")"
-                formula_row = formula_row + 1
-            Next
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(22).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",X" & formula_row & "+Y" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
 
-            formula_row = 2
-            For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(21).Cells
-                cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",X" & formula_row & "+Y" & formula_row & ")"
-                formula_row = formula_row + 1
-            Next
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(23).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",Z" & formula_row & "+AA" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
+            Else
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(19).Cells
+                    cell.FormulaA1 = "=IF(OR(C" & formula_row & "="""",AND(T" & formula_row & "=0,U" & formula_row & "=0)),"""",T" & formula_row & "*J" & formula_row & "+U" & formula_row & "*N" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
+
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(22).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",Z" & formula_row & "/65*(AB" & formula_row & "))"
+                    formula_row = formula_row + 1
+                Next
+
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(24).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",AA" & formula_row & "/65*(AB" & formula_row & "))"
+                    formula_row = formula_row + 1
+                Next
+
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(20).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",V" & formula_row & "+W" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
+
+                formula_row = 2
+                For Each cell In report_workbooks(workbook_name).Worksheet("Exported data").Table("export").DataRange.Column(21).Cells
+                    cell.FormulaA1 = "=IF(C" & formula_row & "="""","""",X" & formula_row & "+Y" & formula_row & ")"
+                    formula_row = formula_row + 1
+                Next
+
+            End If
 
             If report_workbooks(workbook_name).Worksheet("Exported data").Table("export").Columns.Count = 31 Then
                 formula_row = 2
