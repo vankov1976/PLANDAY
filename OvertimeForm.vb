@@ -635,7 +635,7 @@ Public Class OvertimeForm
         For Each department_id In departments.Keys
 
 
-            If departments(department_id).Contains("Berlin") Or departments(department_id).Contains("Administration") Then
+            If departments(department_id).Contains("BER_") Or departments(department_id).Contains("Administration") Then
                 If J = 2020 Then
                     departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr, Frauentag,
                             Karfreitag, Ostermontag, EMai, Tag_der_Befreiung, Christi_Himmelfahrt, Pfingstmontag,
@@ -647,35 +647,35 @@ Public Class OvertimeForm
                 End If
             End If
 
-            If departments(department_id).Contains("Frankfurt") Then
+            If departments(department_id).Contains("FRA_") Then
 
                 departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr,
                             Karfreitag, Ostermontag, EMai, Fronleichnam, Christi_Himmelfahrt, Pfingstmontag,
                             Tag_der_deutschen_Einheit, EWeihnachtstag, ZWeihnachtstag}
             End If
 
-            If departments(department_id).Contains("Hamburg") Then
+            If departments(department_id).Contains("HAM_") Then
 
                 departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr,
                             Karfreitag, Ostermontag, EMai, Christi_Himmelfahrt, Pfingstmontag,
                             Tag_der_deutschen_Einheit, Reformationstag, EWeihnachtstag, ZWeihnachtstag}
             End If
 
-            If departments(department_id).Contains("Heidelberg") Then
+            If departments(department_id).Contains("HEI_") Then
 
                 departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr, Heilige_3_Koenige,
                             Karfreitag, Ostermontag, EMai, Fronleichnam, Christi_Himmelfahrt, Pfingstmontag,
                             Tag_der_deutschen_Einheit, Allerheiligen, EWeihnachtstag, ZWeihnachtstag}
             End If
 
-            If departments(department_id).Contains("Leipzig") Then
+            If departments(department_id).Contains("LEI_") Then
 
                 departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr,
                             Karfreitag, Ostermontag, EMai, Christi_Himmelfahrt, Pfingstmontag,
                             Tag_der_deutschen_Einheit, Reformationstag, Buss_und_Bettag, EWeihnachtstag, ZWeihnachtstag}
             End If
 
-            If departments(department_id).Contains("Munich") Then
+            If departments(department_id).Contains("MUC_") Then
 
                 departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr, Heilige_3_Koenige,
                             Karfreitag, Ostermontag, EMai, Fronleichnam, Christi_Himmelfahrt, Pfingstmontag, Maria_Himmelfahrt,
@@ -739,7 +739,7 @@ Public Class OvertimeForm
         For Each department_id In departments.Keys
 
 
-            If departments(department_id).Contains("Berlin") Or departments(department_id).Contains("Administration") Then
+            If departments(department_id).Contains("BER_") Or departments(department_id).Contains("Administration") Then
                 If year = 2020 Then
                     departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr, Frauentag,
                             Karfreitag, Ostermontag, EMai, Tag_der_Befreiung, Christi_Himmelfahrt, Pfingstmontag,
@@ -751,35 +751,35 @@ Public Class OvertimeForm
                 End If
             End If
 
-            If departments(department_id).Contains("Frankfurt") Then
+            If departments(department_id).Contains("FRA_") Then
 
                 departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr,
                             Karfreitag, Ostermontag, EMai, Fronleichnam, Christi_Himmelfahrt, Pfingstmontag,
                             Tag_der_deutschen_Einheit, EWeihnachtstag, ZWeihnachtstag}
             End If
 
-            If departments(department_id).Contains("Hamburg") Then
+            If departments(department_id).Contains("HAM_") Then
 
                 departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr,
                             Karfreitag, Ostermontag, EMai, Christi_Himmelfahrt, Pfingstmontag,
                             Tag_der_deutschen_Einheit, Reformationstag, EWeihnachtstag, ZWeihnachtstag}
             End If
 
-            If departments(department_id).Contains("Heidelberg") Then
+            If departments(department_id).Contains("HEI_") Then
 
                 departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr, Heilige_3_Koenige,
                             Karfreitag, Ostermontag, EMai, Fronleichnam, Christi_Himmelfahrt, Pfingstmontag,
                             Tag_der_deutschen_Einheit, Allerheiligen, EWeihnachtstag, ZWeihnachtstag}
             End If
 
-            If departments(department_id).Contains("Leipzig") Then
+            If departments(department_id).Contains("LEI_") Then
 
                 departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr,
                             Karfreitag, Ostermontag, EMai, Christi_Himmelfahrt, Pfingstmontag,
                             Tag_der_deutschen_Einheit, Reformationstag, Buss_und_Bettag, EWeihnachtstag, ZWeihnachtstag}
             End If
 
-            If departments(department_id).Contains("Munich") Then
+            If departments(department_id).Contains("MUC_") Then
 
                 departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr, Heilige_3_Koenige,
                             Karfreitag, Ostermontag, EMai, Fronleichnam, Christi_Himmelfahrt, Pfingstmontag, Maria_Himmelfahrt,
@@ -1277,7 +1277,7 @@ Public Class OvertimeForm
                         Case "Time off in lieu"
                         Case "Holiday"
                         Case "Anderes Haus übernimmt Schicht"
-                        Case "Bank holiday - off"
+                        Case "Bank holiday (off)"
                         Case "FREI // Kurzarbeit Ausgleich"
                         Case Else
                             '''''''''
@@ -2460,7 +2460,7 @@ weiter:
                             quarter_working_hours = quarter_working_hours + shift_length(value("startDateTime"), value("endDateTime"), unter_18(BirthDate, Strings.Left(value("startDateTime"), 10)))
 
                         Case "Anderes Haus übernimmt Schicht"
-                        Case "Bank holiday - off"
+                        Case "Bank holiday (off)"
                         Case "Sick leave - child"
 
                             If working_days Is Nothing Then
@@ -2549,7 +2549,7 @@ weiter:
                         Case "Holiday"
                         Case "Sick leave - Bank holiday"
                         Case "Anderes Haus übernimmt Schicht"
-                        Case "Bank holiday - off"
+                        Case "Bank holiday (off)"
                         Case "Sick leave - child"
                         Case "Unpaid leave"
                         Case "FREI // Kurzarbeit Ausgleich"
@@ -2738,7 +2738,7 @@ weiter:
                             temp_125 = 0
                     '''''''''''
                         Case "Anderes Haus übernimmt Schicht"
-                        Case "Bank holiday - off"
+                        Case "Bank holiday (off)"
                         Case "Sick leave - child"
 
                             sunday_FT_hours_krank = sunday_FT_hours_krank + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_150(value("startDateTime"), value("endDateTime"), department_id) + calculate_XMAS_125(value("startDateTime"), value("endDateTime"), department_id)
@@ -3000,7 +3000,7 @@ weiter:
                             temp_night = 0
                     '''''''''''
                         Case "Anderes Haus übernimmt Schicht"
-                        Case "Bank holiday - off"
+                        Case "Bank holiday (off)"
                         Case "Sick leave - child"
 
                             sunday_FT_hours_krank = sunday_FT_hours_krank + calculate_sunday_FT(value("startDateTime"), value("endDateTime"), department_id)

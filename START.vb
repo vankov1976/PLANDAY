@@ -64,6 +64,7 @@ Public Class START
     End Sub
 
     Private Sub watcher_idle(sender As Object) Handles watcher.Idle
+
         Me.Invoke(Sub() Me.BringToFront())
         ' This will depend on your implementation
         If closing_enabled Then
