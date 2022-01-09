@@ -312,7 +312,7 @@ Public Class ExportForm
                             shWorkSheet.Range("P1").Value = "Night payment"
                             If selected_month = 1 Then
                                 shWorkSheet.Range("Q1").Value = "festive 50%"
-                                shWorkSheet.Range("R1").Value = "festive 255"
+                                shWorkSheet.Range("R1").Value = "festive 25%"
                                 shWorkSheet.Range("S1").Value = "105 hours"
                                 shWorkSheet.Range("T1").Value = "All shifts approved"
                                 shWorkSheet.Range("U1").Value = "420 payment"
@@ -512,6 +512,7 @@ Public Class ExportForm
                         If Len(current_employee) > 31 Then
                             current_employee = Strings.Left(current_employee, 31)
                         End If
+
                         current_workbook = hotel
                         OvertimeForm.calculate_last_3_months(value("id"), Values, senior, If(value.ContainsKey("birthDate"), value("birthDate"), ""))
 
@@ -828,7 +829,7 @@ Public Class ExportForm
                         report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = night_hours_krank
                         report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = last_3_months_sunday_FT_hours
                         report_workbooks(hotel).Worksheet("Exported data").Cell(row, 29).Value = last_3_months_night_hours
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Value = OvertimeForm.paid_leave_days(item_found)
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 30).Value = OvertimeForm.paid_leave_days(item_found)
                     Else
                         If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
                             report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = working_hours + working_hours_krank
@@ -1162,7 +1163,7 @@ Public Class ExportForm
                             shWorkSheet.Range("P1").Value = "Night payment"
                             If selected_month = 1 Then
                                 shWorkSheet.Range("Q1").Value = "festive 50%"
-                                shWorkSheet.Range("R1").Value = "festive 255"
+                                shWorkSheet.Range("R1").Value = "festive 25%"
                                 shWorkSheet.Range("S1").Value = "105 hours"
                                 shWorkSheet.Range("T1").Value = "All shifts approved"
                                 shWorkSheet.Range("U1").Value = "420 payment"
@@ -1780,7 +1781,7 @@ Public Class ExportForm
                     shWorkSheet.Range("P1").Value = "Night payment"
                     If selected_month = 1 Then
                         shWorkSheet.Range("Q1").Value = "festive 50%"
-                        shWorkSheet.Range("R1").Value = "festive 255"
+                        shWorkSheet.Range("R1").Value = "festive 25%"
                         shWorkSheet.Range("S1").Value = "105 hours"
                         shWorkSheet.Range("T1").Value = "All shifts approved"
                         shWorkSheet.Range("U1").Value = "420 payment"
@@ -2065,7 +2066,7 @@ Public Class ExportForm
                         report_workbooks(hotel).Worksheet("Exported data").Cell(row, 27).Value = night_hours_krank
                         report_workbooks(hotel).Worksheet("Exported data").Cell(row, 28).Value = last_3_months_sunday_FT_hours
                         report_workbooks(hotel).Worksheet("Exported data").Cell(row, 29).Value = last_3_months_night_hours
-                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 20).Value = OvertimeForm.paid_leave_days(item_found)
+                        report_workbooks(hotel).Worksheet("Exported data").Cell(row, 30).Value = OvertimeForm.paid_leave_days(item_found)
                     Else
                         If id_contract_rule = 3527 Or id_contract_rule = 4856 Then
                             report_workbooks(hotel).Worksheet("Exported data").Cell(row, 17).Value = working_hours + working_hours_krank

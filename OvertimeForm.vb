@@ -279,9 +279,24 @@ Public Class OvertimeForm
                                                                 New MonthPeriod(CDate("04.10.2021"), CDate("03.11.2021")),
                                                                 New MonthPeriod(CDate("04.11.2021"), CDate("03.12.2021")))
 
+        Dim payroll_2022 As PayrollPeriods = New PayrollPeriods(2022,
+                                                                New MonthPeriod(CDate("04.12.2021"), CDate("03.01.2022")),
+                                                                New MonthPeriod(CDate("04.01.2022"), CDate("03.02.2022")),
+                                                                New MonthPeriod(CDate("04.02.2022"), CDate("03.03.2022")),
+                                                                New MonthPeriod(CDate("04.03.2022"), CDate("03.04.2022")),
+                                                                New MonthPeriod(CDate("04.04.2022"), CDate("03.05.2022")),
+                                                                New MonthPeriod(CDate("04.05.2022"), CDate("03.06.2022")),
+                                                                New MonthPeriod(CDate("04.06.2022"), CDate("03.07.2022")),
+                                                                New MonthPeriod(CDate("04.07.2022"), CDate("03.08.2022")),
+                                                                New MonthPeriod(CDate("04.08.2022"), CDate("03.09.2022")),
+                                                                New MonthPeriod(CDate("04.09.2022"), CDate("03.10.2022")),
+                                                                New MonthPeriod(CDate("04.10.2022"), CDate("03.11.2022")),
+                                                                New MonthPeriod(CDate("04.11.2022"), CDate("03.12.2022")))
+
         payroll_periods(2019) = payroll_2019
         payroll_periods(2020) = payroll_2020
         payroll_periods(2021) = payroll_2021
+        payroll_periods(2022) = payroll_2022
     End Sub
 
     Public Sub set_params()
@@ -1810,24 +1825,40 @@ Public Class OvertimeForm
         end_day = Weekday(CDate(Replace(var_end, "T", " ")), vbMonday)
 
         If start_day = end_day Then
-            If start_day = 7 Or FT_found_calculate(start_date, department_id) Then
-                result = end_time - start_time
+            If start_day = 7 Or FT_found(start_date, department_id) Then
+                If (DateAndTime.Day(start_date) = 25 Or DateAndTime.Day(start_date) = 26) And Month(start_date) = 12 And Year(start_date) > 2019 Then
+                    'do nothing
+                Else
+                    result = end_time - start_time
+                End If
             Else
                 'do nothing
             End If
 
         Else
-            If start_day = 7 Or FT_found_calculate(start_date, department_id) Then
-                If end_day = 7 Or FT_found_calculate(end_date, department_id) Then
-                    result = 24 - start_time + end_time
+            If start_day = 7 Or FT_found(start_date, department_id) Then
+                If end_day = 7 Or FT_found(end_date, department_id) Then
+                    If (DateAndTime.Day(start_date) = 25 Or DateAndTime.Day(start_date) = 26) And Month(start_date) = 12 And Year(start_date) > 2019 Then
+                        'do nothing
+                    Else
+                        result = 24 - start_time + end_time
+                    End If
                 Else
-                    result = 24 - start_time
+                    If (DateAndTime.Day(start_date) = 25 Or DateAndTime.Day(start_date) = 26) And Month(start_date) = 12 And Year(start_date) > 2019 Then
+                        'do nothing
+                    Else
+                        result = 24 - start_time
+                    End If
                 End If
 
             Else
 
-                If end_day = 7 Or FT_found_calculate(end_date, department_id) Then
-                    result = end_time
+                If end_day = 7 Or FT_found(end_date, department_id) Then
+                    If DateAndTime.Day(start_date) = 24 And Month(start_date) = 12 And Year(start_date) > 2019 Then
+                        'do nothing
+                    Else
+                        result = end_time
+                    End If
                 Else
                     'do nothing
                 End If
@@ -1867,7 +1898,7 @@ Public Class OvertimeForm
 
 
         If start_day = end_day Then
-            If start_day = 7 Or FT_found_calculate(start_date, department_id) Then
+            If start_day = 7 Or FT_found(start_date, department_id) Then
                 'do nothing
             Else
                 If start_time >= end_surcharges And end_time <= start_surcharges Then
@@ -1875,7 +1906,11 @@ Public Class OvertimeForm
                 End If
 
                 If start_time >= end_surcharges And end_time > start_surcharges Then
-                    result = 24 - end_time - start_surcharges
+                    If (DateAndTime.Day(start_date) = 24 Or DateAndTime.Day(start_date) = 31) And Month(start_date) = 12 And Year(start_date) > 2019 Then
+                        'do nothing
+                    Else
+                        result = 24 - end_time - start_surcharges
+                    End If
                 End If
 
                 If start_time < end_surcharges And end_time <= start_surcharges Then
@@ -1883,7 +1918,11 @@ Public Class OvertimeForm
                 End If
 
                 If start_time < end_surcharges And end_time > start_surcharges Then
-                    result = end_surcharges - start_time + end_time - start_surcharges
+                    If (DateAndTime.Day(start_date) = 24 Or DateAndTime.Day(start_date) = 31) And Month(start_date) = 12 And Year(start_date) > 2019 Then
+                        result = end_surcharges - start_time
+                    Else
+                        result = end_surcharges - start_time + end_time - start_surcharges
+                    End If
                 End If
 
                 If start_time < end_surcharges And end_time < end_surcharges Then
@@ -1895,7 +1934,11 @@ Public Class OvertimeForm
                 End If
 
                 If start_time <= start_surcharges And end_time > start_surcharges Then
-                    result = end_time - start_surcharges
+                    If (DateAndTime.Day(start_date) = 24 Or DateAndTime.Day(start_date) = 31) And Month(start_date) = 12 And Year(start_date) > 2019 Then
+                        'do nothing
+                    Else
+                        result = end_time - start_surcharges
+                    End If
                 End If
 
                 If start_time <= start_surcharges And end_time <= start_surcharges Then
@@ -1903,15 +1946,19 @@ Public Class OvertimeForm
                 End If
 
                 If start_time > start_surcharges Then
-                    result = end_time - start_time
+                    If (DateAndTime.Day(start_date) = 24 Or DateAndTime.Day(start_date) = 31) And Month(start_date) = 12 And Year(start_date) > 2019 Then
+                        'do nothing
+                    Else
+                        result = end_time - start_time
+                    End If
                 End If
 
             End If
 
 
         Else
-            If start_day = 7 Or FT_found_calculate(start_date, department_id) Then
-                If end_day = 7 Or FT_found_calculate(end_date, department_id) Then
+            If start_day = 7 Or FT_found(start_date, department_id) Then
+                If end_day = 7 Or FT_found(end_date, department_id) Then
                     'do nothing
                 Else
                     If end_time < end_surcharges Then
@@ -1923,8 +1970,12 @@ Public Class OvertimeForm
             Else
                 If start_time <= start_surcharges Then
 
-                    If end_day = 7 Or FT_found_calculate(end_date, department_id) Then
-                        result = 24 - start_surcharges
+                    If end_day = 7 Or FT_found(end_date, department_id) Then
+                        If (DateAndTime.Day(start_date) = 24 Or DateAndTime.Day(start_date) = 31) And Month(start_date) = 12 And Year(start_date) > 2019 Then
+                            'do nothing
+                        Else
+                            result = 24 - start_surcharges
+                        End If
                     Else
                         If end_time < end_surcharges Then
                             result = 24 - start_surcharges + end_time
@@ -1942,8 +1993,12 @@ Public Class OvertimeForm
                     End If
 
                 Else
-                    If end_day = 7 Or FT_found_calculate(end_date, department_id) Then
-                        result = 24 - start_time
+                    If end_day = 7 Or FT_found(end_date, department_id) Then
+                        If (DateAndTime.Day(start_date) = 24 Or DateAndTime.Day(start_date) = 31) And Month(start_date) = 12 And Year(start_date) > 2019 Then
+                            'do nothing
+                        Else
+                            result = 24 - start_time
+                        End If
                     Else
                         If end_time < end_surcharges Then
                             result = 24 - start_time + end_time
@@ -1983,7 +2038,7 @@ Public Class OvertimeForm
         End If
 
 
-        Dim vacation_accounts()
+        Dim vacation_accounts(), vacation_accounts_next_year()
         Dim Parsed As Dictionary(Of String, Object)
         Dim value As Dictionary(Of String, Object)
         Dim objhttp As Object = CreateObject("MSXML2.XMLHTTP")
@@ -1999,14 +2054,35 @@ Public Class OvertimeForm
 
             If vacation_types.Contains(value("typeId")) Then
 
-                If vacation_accounts Is Nothing Then
-                    ReDim Preserve vacation_accounts(0)
-                    vacation_accounts(0) = value("id")
-                Else
-                    If Not vacation_accounts.Contains(value("id")) Then
-                        ReDim Preserve vacation_accounts(UBound(vacation_accounts) + 1)
-                        vacation_accounts(UBound(vacation_accounts)) = value("id")
+
+                If Strings.Left(begin_date, 4) = Strings.Left(value("validityPeriod")("start"), 4) Then
+                    If vacation_accounts Is Nothing Then
+                        ReDim Preserve vacation_accounts(0)
+                        vacation_accounts(0) = value("id")
+                    Else
+                        If Not vacation_accounts.Contains(value("id")) Then
+                            ReDim Preserve vacation_accounts(UBound(vacation_accounts) + 1)
+                            vacation_accounts(UBound(vacation_accounts)) = value("id")
+                        End If
                     End If
+
+                End If
+
+                If Strings.Left(begin_date, 4) <> Strings.Left(final_date, 4) Then
+
+                    If Strings.Left(final_date, 4) = Strings.Left(value("validityPeriod")("start"), 4) Then
+                        If vacation_accounts_next_year Is Nothing Then
+                            ReDim Preserve vacation_accounts_next_year(0)
+                            vacation_accounts_next_year(0) = value("id")
+                        Else
+                            If Not vacation_accounts_next_year.Contains(value("id")) Then
+                                ReDim Preserve vacation_accounts_next_year(UBound(vacation_accounts_next_year) + 1)
+                                vacation_accounts_next_year(UBound(vacation_accounts_next_year)) = value("id")
+                            End If
+                        End If
+
+                    End If
+
                 End If
 
             End If
@@ -2017,6 +2093,7 @@ Public Class OvertimeForm
             result = 0
             Exit Function
         End If
+
 
 
         If Year(CDate(begin_date)) <> Year(CDate(final_date)) Then
@@ -2053,7 +2130,13 @@ Public Class OvertimeForm
             temp = start_balance - end_balance
             start_balance = 0
             end_balance = 0
-            For Each Item In vacation_accounts
+
+            If vacation_accounts_next_year Is Nothing Then
+                result = 0
+                Exit Function
+            End If
+
+            For Each Item In vacation_accounts_next_year
                 objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts/" & Item & "/balance?balanceDate=" & final_date, False)
                 objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
                 objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
@@ -2065,7 +2148,7 @@ Public Class OvertimeForm
                 Next
             Next
 
-            For Each Item In vacation_accounts
+            For Each Item In vacation_accounts_next_year
                 objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts/" & Item & "/balance?balanceDate=" & Format(DateSerial(Year(CDate(final_date)), 1, 1), "yyyy-MM-dd"), False)
                 objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
                 objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
