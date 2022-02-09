@@ -56,9 +56,10 @@ Partial Class ExportForm
         'CLOSE_button
         '
         Me.CLOSE_button.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.CLOSE_button.Location = New System.Drawing.Point(260, 125)
+        Me.CLOSE_button.Location = New System.Drawing.Point(347, 167)
+        Me.CLOSE_button.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.CLOSE_button.Name = "CLOSE_button"
-        Me.CLOSE_button.Size = New System.Drawing.Size(136, 49)
+        Me.CLOSE_button.Size = New System.Drawing.Size(181, 65)
         Me.CLOSE_button.TabIndex = 4
         Me.CLOSE_button.Text = "Close"
         Me.ToolTip1.SetToolTip(Me.CLOSE_button, "bye bye :-)")
@@ -67,9 +68,10 @@ Partial Class ExportForm
         'START_button
         '
         Me.START_button.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.START_button.Location = New System.Drawing.Point(260, 70)
+        Me.START_button.Location = New System.Drawing.Point(347, 93)
+        Me.START_button.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.START_button.Name = "START_button"
-        Me.START_button.Size = New System.Drawing.Size(136, 49)
+        Me.START_button.Size = New System.Drawing.Size(181, 65)
         Me.START_button.TabIndex = 3
         Me.START_button.Text = "Export"
         Me.ToolTip1.SetToolTip(Me.START_button, "Do work")
@@ -79,9 +81,10 @@ Partial Class ExportForm
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(12, 23)
+        Me.Label1.Location = New System.Drawing.Point(16, 31)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(64, 20)
+        Me.Label1.Size = New System.Drawing.Size(84, 26)
         Me.Label1.TabIndex = 15
         Me.Label1.Text = "Month:"
         '
@@ -89,9 +92,10 @@ Partial Class ExportForm
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(12, 86)
+        Me.Label2.Location = New System.Drawing.Point(16, 115)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(101, 20)
+        Me.Label2.Size = New System.Drawing.Size(137, 26)
         Me.Label2.TabIndex = 16
         Me.Label2.Text = "Employees:"
         '
@@ -99,9 +103,10 @@ Partial Class ExportForm
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(12, 211)
+        Me.Label3.Location = New System.Drawing.Point(16, 281)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(57, 20)
+        Me.Label3.Size = New System.Drawing.Size(75, 26)
         Me.Label3.TabIndex = 17
         Me.Label3.Text = "Hotel:"
         '
@@ -110,10 +115,10 @@ Partial Class ExportForm
         Me.select_month.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.select_month.FormattingEnabled = True
         Me.select_month.IntegralHeight = False
-        Me.select_month.Location = New System.Drawing.Point(16, 48)
-        Me.select_month.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.select_month.Location = New System.Drawing.Point(21, 64)
+        Me.select_month.Margin = New System.Windows.Forms.Padding(5, 7, 5, 7)
         Me.select_month.Name = "select_month"
-        Me.select_month.Size = New System.Drawing.Size(222, 28)
+        Me.select_month.Size = New System.Drawing.Size(295, 33)
         Me.select_month.TabIndex = 0
         '
         'select_status
@@ -121,10 +126,10 @@ Partial Class ExportForm
         Me.select_status.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.select_status.FormattingEnabled = True
         Me.select_status.IntegralHeight = False
-        Me.select_status.Location = New System.Drawing.Point(16, 111)
-        Me.select_status.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.select_status.Location = New System.Drawing.Point(21, 148)
+        Me.select_status.Margin = New System.Windows.Forms.Padding(5, 7, 5, 7)
         Me.select_status.Name = "select_status"
-        Me.select_status.Size = New System.Drawing.Size(222, 28)
+        Me.select_status.Size = New System.Drawing.Size(295, 33)
         Me.select_status.TabIndex = 1
         '
         'select_hotel
@@ -135,9 +140,10 @@ Partial Class ExportForm
         Me.select_hotel.FullRowSelect = True
         Me.select_hotel.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.select_hotel.HideSelection = False
-        Me.select_hotel.Location = New System.Drawing.Point(16, 232)
+        Me.select_hotel.Location = New System.Drawing.Point(21, 309)
+        Me.select_hotel.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.select_hotel.Name = "select_hotel"
-        Me.select_hotel.Size = New System.Drawing.Size(380, 366)
+        Me.select_hotel.Size = New System.Drawing.Size(505, 487)
         Me.select_hotel.TabIndex = 20
         Me.select_hotel.TabStop = False
         Me.select_hotel.UseCompatibleStateImageBehavior = False
@@ -147,9 +153,10 @@ Partial Class ExportForm
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(12, 152)
+        Me.Label4.Location = New System.Drawing.Point(16, 203)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(117, 20)
+        Me.Label4.Size = New System.Drawing.Size(155, 26)
         Me.Label4.TabIndex = 21
         Me.Label4.Text = "Export folder:"
         '
@@ -158,9 +165,10 @@ Partial Class ExportForm
         Me.Label_folder.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Label_folder.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label_folder.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.Label_folder.Location = New System.Drawing.Point(11, 177)
+        Me.Label_folder.Location = New System.Drawing.Point(15, 236)
+        Me.Label_folder.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label_folder.Name = "Label_folder"
-        Me.Label_folder.Size = New System.Drawing.Size(384, 28)
+        Me.Label_folder.Size = New System.Drawing.Size(512, 37)
         Me.Label_folder.TabIndex = 22
         Me.Label_folder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -169,9 +177,10 @@ Partial Class ExportForm
         Me.YEAR_button.Cursor = System.Windows.Forms.Cursors.Hand
         Me.YEAR_button.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.YEAR_button.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.YEAR_button.Location = New System.Drawing.Point(260, 15)
+        Me.YEAR_button.Location = New System.Drawing.Point(347, 20)
+        Me.YEAR_button.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.YEAR_button.Name = "YEAR_button"
-        Me.YEAR_button.Size = New System.Drawing.Size(136, 49)
+        Me.YEAR_button.Size = New System.Drawing.Size(181, 65)
         Me.YEAR_button.TabIndex = 2
         Me.YEAR_button.Text = "2020"
         Me.ToolTip1.SetToolTip(Me.YEAR_button, "Change year")
@@ -179,9 +188,9 @@ Partial Class ExportForm
         '
         'ExportForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(144.0!, 144.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(192.0!, 192.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
-        Me.ClientSize = New System.Drawing.Size(410, 612)
+        Me.ClientSize = New System.Drawing.Size(547, 816)
         Me.Controls.Add(Me.YEAR_button)
         Me.Controls.Add(Me.Label_folder)
         Me.Controls.Add(Me.Label4)
@@ -195,6 +204,7 @@ Partial Class ExportForm
         Me.Controls.Add(Me.CLOSE_button)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "ExportForm"

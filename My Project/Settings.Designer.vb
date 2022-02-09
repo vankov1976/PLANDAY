@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.6.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.0.3.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -52,6 +52,204 @@ Namespace My
 #End If
                 Return defaultInstance
             End Get
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property DE_shifts() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("DE_shifts"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("DE_shifts") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property HQ_shifts() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("HQ_shifts"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("HQ_shifts") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property DE_shifts_names() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("DE_shifts_names"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("DE_shifts_names") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property HQ_shifts_names() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("HQ_shifts_names"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("HQ_shifts_names") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property DE_departments() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("DE_departments"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("DE_departments") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property HQ_departments() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("HQ_departments"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("HQ_departments") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property DE_departments_names() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("DE_departments_names"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("DE_departments_names") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property HQ_departments_names() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("HQ_departments_names"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("HQ_departments_names") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property DE_departments_bundesland() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("DE_departments_bundesland"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("DE_departments_bundesland") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property HQ_departments_bundesland() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("HQ_departments_bundesland"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("HQ_departments_bundesland") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property DE_shifts_surcharges() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("DE_shifts_surcharges"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("DE_shifts_surcharges") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property HQ_shifts_surcharges() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("HQ_shifts_surcharges"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("HQ_shifts_surcharges") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property DE_shifts_overtime() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("DE_shifts_overtime"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("DE_shifts_overtime") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property HQ_shifts_overtime() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("HQ_shifts_overtime"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("HQ_shifts_overtime") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property DE_shifts_sick_paid() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("DE_shifts_sick_paid"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("DE_shifts_sick_paid") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property HQ_shifts_sick_paid() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("HQ_shifts_sick_paid"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("HQ_shifts_sick_paid") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property DE_shifts_sick_surcharges() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("DE_shifts_sick_surcharges"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("DE_shifts_sick_surcharges") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property HQ_shifts_sick_surcharges() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("HQ_shifts_sick_surcharges"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("HQ_shifts_sick_surcharges") = value
+            End Set
         End Property
     End Class
 End Namespace

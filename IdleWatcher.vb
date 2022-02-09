@@ -32,7 +32,7 @@
         End If
     End Sub
     Public Sub Refresh()
-        START.BringToFront()
+        'START.BringToFront()
         _lastEvent = DateTime.Now
     End Sub
 End Class

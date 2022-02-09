@@ -379,7 +379,11 @@ Partial Class OvertimeForm
 
         With Me.select_hotel
             For Each hotel_name In departments.Keys
-                If ownDepartment = "NONE" Then Exit For
+                If ownDepartment = "NONE" Then
+                    MsgBox("You are not a member of the choosen PLANDAY portal." & vbNewLine & "If you are please login with your MEININGER login,e.g. on Citrix Desktop." & vbNewLine & "Application will exit.")
+                    Application.Exit()
+                End If
+                On Error Resume Next
                 If ownDepartment <> "ALL" Then
                     .Items.Add(ownDepartment)
                     Exit For
@@ -416,9 +420,28 @@ Partial Class OvertimeForm
         For i = 0 To Me.select_employees.Columns.Count - 1
             column_widths(i) = Me.select_employees.Columns(i).Width
         Next
-
+        '''
+        Dim totalColumnWidth As Double = 0
+        For i = 0 To select_employees.Columns.Count - 1
+            totalColumnWidth += Convert.ToInt32(column_widths(i))
+        Next
+        If totalColumnWidth > select_employees.Width - 30 Then
+            column_widths(0) = 294
+            column_widths(1) = 60
+            column_widths(2) = 60
+            column_widths(3) = 116
+            column_widths(4) = 116
+            column_widths(5) = 116
+            column_widths(6) = 116
+            column_widths(7) = 116
+        End If
+        For i = 0 To select_employees.Columns.Count - 1
+            Dim colPercentage As Double = (Convert.ToInt32(column_widths(i)) / totalColumnWidth)
+            select_employees.Columns(i).Width = CInt(colPercentage * (select_employees.Width - 30))
+        Next
+        '''
         If normalDPI Then
-            Dim totalColumnWidth As Double = 0
+            'Dim totalColumnWidth As Double = 0
             Me.Width = Me.Width + 80
             For i = 0 To select_employees.Columns.Count - 1
                 totalColumnWidth += Convert.ToInt32(column_widths(i))
@@ -458,6 +481,7 @@ Partial Class OvertimeForm
 
         Me.select_hotel.Select()
         ''finish loader''
+
         myWorkingForm.BeginInvoke(Sub() myWorkingForm.Close())
 
         ImChangingStuff = False

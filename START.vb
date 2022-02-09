@@ -3,11 +3,12 @@ Imports System.Threading
 Imports PLANDAY.OvertimeForm
 
 Public Class START
-    Private WithEvents watcher As New IdleWatcher
-    Private closing_enabled As Boolean
+    Public WithEvents watcher As New IdleWatcher
+    Public closing_enabled As Boolean
 
     Private Sub START_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Escape Then
+            Me.Hide()
             ClosingForm.StartPosition = FormStartPosition.Manual
             ClosingForm.Location = New Point(Me.Location.X + Me.Width / 2 - ClosingForm.Width / 2, Me.Location.Y + Me.Height / 2 - ClosingForm.Height / 2)
             ClosingForm.Show(Me)
@@ -17,24 +18,27 @@ Public Class START
 
     Private Sub OVERTIME_button_Click(sender As Object, e As EventArgs) Handles OVERTIME_button.Click
         Me.Hide()
-        ''''loader'''
-        Dim th As System.Threading.Thread = New Threading.Thread(Sub() Loader(Me.Location.X, Me.Location.Y, Me.Width, Me.Height))
-        th.SetApartmentState(ApartmentState.STA)
-        th.Start()
-        OvertimeForm.Show()
-        watcher.Enabled = False
-        closing_enabled = False
-        Me.Close()
+        PLANDAY_portal.ShowDialog()
+        If Not closing_enabled Then
+            ''''loader'''
+            Dim th As System.Threading.Thread = New Threading.Thread(Sub() Loader(Me.Location.X, Me.Location.Y, Me.Width, Me.Height))
+            th.SetApartmentState(ApartmentState.STA)
+            th.Start()
+            OvertimeForm.Show()
+            Me.Close()
+        End If
     End Sub
 
     Private Sub Loader(x As Integer, y As Integer, width As Integer, height As Integer)
+        watcher.Enabled = False
+        closing_enabled = False
         myWorkingForm = New LoadingForm()
         myWorkingForm.StartPosition = FormStartPosition.Manual
         myWorkingForm.Location = New Point(x + width / 2 - myWorkingForm.Width / 2, y + height / 2 - myWorkingForm.Height / 2)
         System.Windows.Forms.Application.Run(myWorkingForm)
     End Sub
 
-    Private Sub Closer(x As Integer, y As Integer, width As Integer, height As Integer)
+    Public Sub Closer(x As Integer, y As Integer, width As Integer, height As Integer)
         myWorkingForm = New ClosingForm()
         myWorkingForm.StartPosition = FormStartPosition.Manual
         myWorkingForm.Location = New Point(x + width / 2 - myWorkingForm.Width / 2, y + height / 2 - myWorkingForm.Height / 2)
@@ -43,14 +47,15 @@ Public Class START
 
     Private Sub PAYROLL_button_Click(sender As Object, e As EventArgs) Handles PAYROLL_button.Click
         Me.Hide()
-        ''''loader'''
-        Dim th As System.Threading.Thread = New Threading.Thread(Sub() Loader(Me.Location.X, Me.Location.Y, Me.Width, Me.Height))
-        th.SetApartmentState(ApartmentState.STA)
-        th.Start()
-        ExportForm.Show()
-        watcher.Enabled = False
-        closing_enabled = False
-        Me.Close()
+        PLANDAY_portal.ShowDialog()
+        If Not closing_enabled Then
+            ''''loader'''
+            Dim th As System.Threading.Thread = New Threading.Thread(Sub() Loader(Me.Location.X, Me.Location.Y, Me.Width, Me.Height))
+            th.SetApartmentState(ApartmentState.STA)
+            th.Start()
+            ExportForm.Show()
+            Me.Close()
+        End If
     End Sub
 
     Private Sub START_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -65,7 +70,7 @@ Public Class START
 
     Private Sub watcher_idle(sender As Object) Handles watcher.Idle
 
-        Me.Invoke(Sub() Me.BringToFront())
+        'Me.Invoke(Sub() Me.BringToFront())
         ' This will depend on your implementation
         If closing_enabled Then
             ''''closer'''
@@ -76,6 +81,7 @@ Public Class START
             myWorkingForm.BeginInvoke(Sub() myWorkingForm.Close())
         End If
         Application.Exit()
+
     End Sub
 
     Private Sub OVERTIME_button_MouseMove(sender As Object, e As MouseEventArgs) Handles OVERTIME_button.MouseMove

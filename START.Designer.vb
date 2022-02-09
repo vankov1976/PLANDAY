@@ -39,8 +39,9 @@ Partial Class START
         Me.OVERTIME_button.Image = CType(resources.GetObject("OVERTIME_button.Image"), System.Drawing.Image)
         Me.OVERTIME_button.ImageAlign = System.Drawing.ContentAlignment.TopLeft
         Me.OVERTIME_button.Location = New System.Drawing.Point(0, 0)
+        Me.OVERTIME_button.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.OVERTIME_button.Name = "OVERTIME_button"
-        Me.OVERTIME_button.Size = New System.Drawing.Size(317, 69)
+        Me.OVERTIME_button.Size = New System.Drawing.Size(423, 92)
         Me.OVERTIME_button.TabIndex = 1
         Me.OVERTIME_button.TabStop = False
         Me.OVERTIME_button.Text = "Overtime"
@@ -55,9 +56,10 @@ Partial Class START
         Me.TOOLS_button.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TOOLS_button.Image = CType(resources.GetObject("TOOLS_button.Image"), System.Drawing.Image)
         Me.TOOLS_button.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.TOOLS_button.Location = New System.Drawing.Point(0, 136)
+        Me.TOOLS_button.Location = New System.Drawing.Point(0, 181)
+        Me.TOOLS_button.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.TOOLS_button.Name = "TOOLS_button"
-        Me.TOOLS_button.Size = New System.Drawing.Size(317, 69)
+        Me.TOOLS_button.Size = New System.Drawing.Size(423, 92)
         Me.TOOLS_button.TabIndex = 3
         Me.TOOLS_button.TabStop = False
         Me.TOOLS_button.Text = "Tools"
@@ -71,9 +73,10 @@ Partial Class START
         Me.PAYROLL_button.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PAYROLL_button.Image = CType(resources.GetObject("PAYROLL_button.Image"), System.Drawing.Image)
         Me.PAYROLL_button.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.PAYROLL_button.Location = New System.Drawing.Point(0, 68)
+        Me.PAYROLL_button.Location = New System.Drawing.Point(0, 91)
+        Me.PAYROLL_button.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.PAYROLL_button.Name = "PAYROLL_button"
-        Me.PAYROLL_button.Size = New System.Drawing.Size(317, 69)
+        Me.PAYROLL_button.Size = New System.Drawing.Size(423, 92)
         Me.PAYROLL_button.TabIndex = 2
         Me.PAYROLL_button.TabStop = False
         Me.PAYROLL_button.Text = "Payroll Export"
@@ -86,16 +89,17 @@ Partial Class START
         '
         'START
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(144.0!, 144.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(192.0!, 192.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange
-        Me.ClientSize = New System.Drawing.Size(316, 204)
+        Me.ClientSize = New System.Drawing.Size(416, 267)
         Me.ControlBox = False
         Me.Controls.Add(Me.PAYROLL_button)
         Me.Controls.Add(Me.TOOLS_button)
         Me.Controls.Add(Me.OVERTIME_button)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "START"

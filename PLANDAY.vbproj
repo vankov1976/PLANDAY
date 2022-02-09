@@ -193,6 +193,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="PLANDAY_portal.Designer.vb">
+      <DependentUpon>PLANDAY_portal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PLANDAY_portal.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings.vb" />
+    <Compile Include="Setup.Designer.vb">
+      <DependentUpon>Setup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setup.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="START.Designer.vb">
       <DependentUpon>START.vb</DependentUpon>
     </Compile>
@@ -266,6 +279,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExportPDF.resx">
       <DependentUpon>ExportPDF.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PLANDAY_portal.resx">
+      <DependentUpon>PLANDAY_portal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup.resx">
+      <DependentUpon>Setup.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="START.resx">
       <DependentUpon>START.vb</DependentUpon>

@@ -1,8 +1,10 @@
 ﻿Imports System.ComponentModel
 Imports System.Net
 Imports ClosedXML.Excel
+Imports System.Configuration
 
 Public Class OvertimeForm
+
     Public Shared current_width As Integer
     Public Shared ImChangingStuff As Boolean
     Public Shared width_changed As Boolean
@@ -17,6 +19,9 @@ Public Class OvertimeForm
     Public Shared ownDepartment As String
 
     Public Shared api_token As String
+    Public Shared api_client_id As String
+    Public Shared api_refresh_token As String
+    Public Shared PLANDAY_portal As String
     Public Shared name_extension As String 'MM_yyyy for the payroll period
     Public Shared vacation_types() ' array with vacationTypeIDs
     Public Shared overtime_types() ' array with overtimeTypeIDs
@@ -61,6 +66,33 @@ Public Class OvertimeForm
     Public Shared quarter_working_hours As Double
     Public Shared quarter_working_days As Double
     Public Shared current_year As Integer
+
+    Sub test_1()
+        Dim index As Integer
+        Setup.ShowDialog()
+
+        If PLANDAY_portal = "DE" Then
+            For Each item In My.Settings.DE_shifts
+                index = My.Settings.DE_shifts.IndexOf(item)
+                Debug.Print(index & " " & item & " " & My.Settings.DE_shifts_names.Item(index) & " " & My.Settings.DE_shifts_surcharges.Item(index) & " " & My.Settings.DE_shifts_overtime.Item(index) & " " & My.Settings.DE_shifts_sick_paid.Item(index) & " " & My.Settings.DE_shifts_sick_surcharges.Item(index))
+            Next
+            For Each item In My.Settings.DE_departments
+                index = My.Settings.DE_departments.IndexOf(item)
+                Debug.Print(index & " " & item & " " & My.Settings.DE_departments_names.Item(index) & " " & My.Settings.DE_departments_bundesland.Item(index))
+            Next
+        End If
+        If PLANDAY_portal = "HQ" Then
+            For Each item In My.Settings.HQ_shifts
+                index = My.Settings.HQ_shifts.IndexOf(item)
+                Debug.Print(index & " " & item & " " & My.Settings.HQ_shifts_names.Item(index) & " " & My.Settings.HQ_shifts_surcharges.Item(index) & " " & My.Settings.HQ_shifts_overtime.Item(index) & " " & My.Settings.HQ_shifts_sick_paid.Item(index) & " " & My.Settings.HQ_shifts_sick_surcharges.Item(index))
+            Next
+            For Each item In My.Settings.HQ_departments
+                index = My.Settings.HQ_departments.IndexOf(item)
+                Debug.Print(index & " " & item & " " & My.Settings.HQ_departments_names.Item(index) & " " & My.Settings.HQ_departments_bundesland.Item(index))
+            Next
+        End If
+
+    End Sub
 
     Public Function GetItem(ByVal i As Integer) As ListViewItem
         If select_employees.InvokeRequired Then
@@ -461,11 +493,26 @@ Public Class OvertimeForm
 
         start_monday = Date.Today.AddDays(-Weekday(Date.Today, 2) - 6)
 
+        'api_client_id = "ddca428b-8530-405d-9960-047132c49531" 'Ventzi
+        'api_refresh_token = "r3xT0r-WAUiIlgQWDYWVsw" 'Ventzi
+
+        If PLANDAY_portal = "DE" Then
+            api_client_id = "3b0f80f6-6049-4396-9c1c-06bd2492abe1" 'Donovan DE
+            api_refresh_token = "cup3ruhzYkaDRnpXkcwdpw" 'Donovan DE
+        End If
+
+        If PLANDAY_portal = "HQ" Then
+            api_client_id = "5edbf7ee-5bc4-41f0-9e35-7fcd85d89b7f" 'Donovan HQ
+            api_refresh_token = "I8IHzHsG20COusX60fXAYg" 'Donovan HQ
+        End If
+
+
+
         If api_token = "" Then
             ''''''''''''''''''''get api_token''''''''''''''''''''''''
             objhttp.Open("POST", "https://openapi-login.planday.com/connect/token", False)
             objhttp.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-            objhttp.Send("client_id=ddca428b-8530-405d-9960-047132c49531&grant_type=refresh_token&refresh_token=r3xT0r-WAUiIlgQWDYWVsw")
+            objhttp.Send("client_id=" & api_client_id & "&grant_type=refresh_token&refresh_token=" & api_refresh_token)
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
             api_token = Parsed("access_token")
 
@@ -474,7 +521,7 @@ Public Class OvertimeForm
         '''''''''''EMPLYOEE TYPES''''''''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employeetypes", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -485,7 +532,7 @@ Public Class OvertimeForm
         ''''''''''''''''''EMPLOYEE GROUPS'''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employeegroups", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -496,7 +543,7 @@ Public Class OvertimeForm
         '''''''''''''''''''VACATION ACCOUNT TYPES'''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounttypes?absenceType=Vacation", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -516,7 +563,7 @@ Public Class OvertimeForm
         '''''''''''''''''''OVERTIME ACCOUNT TYPES'''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounttypes?absenceType=Flextime", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -536,21 +583,111 @@ Public Class OvertimeForm
         '''''''''''''''get shift_types''''''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifttypes", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
-        For Each key In Parsed("data")
-            shift_types(key("id")) = key("name")
+        Dim shifts_count As Integer
+        If Parsed("paging").ContainsKey("total") Then shifts_count = Parsed("paging")("total")
+
+        For y = 0 To CInt(shifts_count / 50)
+            objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifttypes?limit=0&offset=" & y * 50, False)
+            objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
+            objhttp.Send()
+            Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
+            Debug.Print(objhttp.ResponseText)
+            For Each key In Parsed("data")
+                shift_types(key("id")) = key("name")
+                ''''''''''
+                If PLANDAY_portal = "DE" Then
+                    If My.Settings.DE_shifts Is Nothing Then
+                        My.Settings.DE_shifts = New Specialized.StringCollection
+                        My.Settings.DE_shifts_names = New Specialized.StringCollection
+                        My.Settings.DE_shifts_surcharges = New Specialized.StringCollection
+                        My.Settings.DE_shifts_overtime = New Specialized.StringCollection
+                        My.Settings.DE_shifts_sick_paid = New Specialized.StringCollection
+                        My.Settings.DE_shifts_sick_surcharges = New Specialized.StringCollection
+                    End If
+                    If Not My.Settings.DE_shifts.Contains(key("id")) Then
+                        If key("isActive") = True Then
+                            My.Settings.DE_shifts.Add(key("id"))
+                            My.Settings.DE_shifts_names.Add(key("name"))
+                            My.Settings.DE_shifts_surcharges.Add("false")
+                            My.Settings.DE_shifts_overtime.Add("false")
+                            My.Settings.DE_shifts_sick_paid.Add("false")
+                            My.Settings.DE_shifts_sick_surcharges.Add("false")
+                        End If
+                    Else
+                        My.Settings.DE_shifts_names.Item(My.Settings.DE_shifts.IndexOf(key("id"))) = key("name")
+                    End If
+                End If
+
+                If PLANDAY_portal = "HQ" Then
+                    If My.Settings.HQ_shifts Is Nothing Then
+                        My.Settings.HQ_shifts = New Specialized.StringCollection
+                        My.Settings.HQ_shifts_names = New Specialized.StringCollection
+                        My.Settings.HQ_shifts_surcharges = New Specialized.StringCollection
+                        My.Settings.HQ_shifts_overtime = New Specialized.StringCollection
+                        My.Settings.HQ_shifts_sick_paid = New Specialized.StringCollection
+                        My.Settings.HQ_shifts_sick_surcharges = New Specialized.StringCollection
+                    End If
+                    If Not My.Settings.HQ_shifts.Contains(key("id")) Then
+                        If key("isActive") = True Then
+                            My.Settings.HQ_shifts.Add(key("id"))
+                            My.Settings.HQ_shifts_names.Add(key("name"))
+                            My.Settings.HQ_shifts_surcharges.Add("false")
+                            My.Settings.HQ_shifts_overtime.Add("false")
+                            My.Settings.HQ_shifts_sick_paid.Add("false")
+                            My.Settings.HQ_shifts_sick_surcharges.Add("false")
+                        End If
+                    Else
+                        My.Settings.HQ_shifts_names.Item(My.Settings.HQ_shifts.IndexOf(key("id"))) = key("name")
+                    End If
+                End If
+                '''''''''
+            Next
+
         Next
+        '''''''
+        Dim index As Integer
+        If PLANDAY_portal = "DE" Then
+            For Each shift In My.Settings.DE_shifts
+                If Not shift_types.ContainsKey(shift) Then
+                    index = My.Settings.DE_shifts.IndexOf(shift)
+                    My.Settings.DE_shifts.RemoveAt(index)
+                    My.Settings.DE_shifts_names.RemoveAt(index)
+                    My.Settings.DE_shifts_surcharges.RemoveAt(index)
+                    My.Settings.DE_shifts_overtime.RemoveAt(index)
+                    My.Settings.DE_shifts_sick_paid.RemoveAt(index)
+                    My.Settings.DE_shifts_sick_surcharges.RemoveAt(index)
+                End If
+            Next
+        End If
+
+        If PLANDAY_portal = "HQ" Then
+            For Each shift In My.Settings.HQ_shifts
+                If Not shift_types.ContainsKey(shift) Then
+                    index = My.Settings.HQ_shifts.IndexOf(shift)
+                    My.Settings.HQ_shifts.RemoveAt(index)
+                    My.Settings.HQ_shifts_names.RemoveAt(index)
+                    My.Settings.HQ_shifts_surcharges.RemoveAt(index)
+                    My.Settings.HQ_shifts_overtime.RemoveAt(index)
+                    My.Settings.HQ_shifts_sick_paid.RemoveAt(index)
+                    My.Settings.HQ_shifts_sick_surcharges.RemoveAt(index)
+                End If
+            Next
+        End If
+        '''''''
+
 
         ''''''''''''CONTRACT RULES''''''''''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/contractrules/v1.0/contractrules", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
-
+        Debug.Print(objhttp.ResponseText)
         For Each key In Parsed("data")
             contract_rules(key("id")) = Val(key("name"))
         Next
@@ -558,21 +695,76 @@ Public Class OvertimeForm
         ''''''''''''GET List of departments''''''''
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/departments", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
-
+        Debug.Print(objhttp.ResponseText)
         For Each key In Parsed("data")
             departments(key("id")) = key("name")
             department_numbers(key("id")) = key("number")
+            '''''''''
+            If PLANDAY_portal = "DE" Then
+                If My.Settings.DE_departments Is Nothing Then
+                    My.Settings.DE_departments = New Specialized.StringCollection
+                    My.Settings.DE_departments_names = New Specialized.StringCollection
+                    My.Settings.DE_departments_bundesland = New Specialized.StringCollection
+                End If
+                If Not My.Settings.DE_departments.Contains(key("id")) Then
+                    My.Settings.DE_departments.Add(key("id"))
+                    My.Settings.DE_departments_names.Add(key("name"))
+                    My.Settings.DE_departments_bundesland.Add("not_set")
+                Else
+                    My.Settings.DE_departments_names.Item(My.Settings.DE_departments.IndexOf(key("id"))) = key("name")
+                End If
+            End If
+
+            If PLANDAY_portal = "HQ" Then
+                If My.Settings.HQ_departments Is Nothing Then
+                    My.Settings.HQ_departments = New Specialized.StringCollection
+                    My.Settings.HQ_departments_names = New Specialized.StringCollection
+                    My.Settings.HQ_departments_bundesland = New Specialized.StringCollection
+                End If
+                If Not My.Settings.HQ_departments.Contains(key("id")) Then
+                    My.Settings.HQ_departments.Add(key("id"))
+                    My.Settings.HQ_departments_names.Add(key("name"))
+                    My.Settings.HQ_departments_bundesland.Add("not_set")
+                Else
+                    My.Settings.HQ_departments_names.Item(My.Settings.HQ_departments.IndexOf(key("id"))) = key("name")
+                End If
+            End If
+            '''''''''
         Next
+        '''''''
+
+        If PLANDAY_portal = "DE" Then
+            For Each department In My.Settings.DE_departments
+                If Not departments.ContainsKey(department) Then
+                    index = My.Settings.DE_departments.IndexOf(department)
+                    My.Settings.DE_departments.RemoveAt(index)
+                    My.Settings.DE_departments_names.RemoveAt(index)
+                    My.Settings.DE_departments_bundesland.RemoveAt(index)
+                End If
+            Next
+        End If
+
+        If PLANDAY_portal = "HQ" Then
+            For Each department In My.Settings.HQ_departments
+                If Not departments.ContainsKey(department) Then
+                    index = My.Settings.HQ_departments.IndexOf(department)
+                    My.Settings.HQ_departments.RemoveAt(index)
+                    My.Settings.HQ_departments_names.RemoveAt(index)
+                    My.Settings.HQ_departments_bundesland.RemoveAt(index)
+                End If
+            Next
+        End If
+        ''''''
 
         '''''''employee_records'''''''''
         '''''''''''deactivated'''''''''
 
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees/deactivated?limit=0", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -583,7 +775,7 @@ Public Class OvertimeForm
 
             objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees/deactivated?limit=0&offset=" & y * 50 & "&special=BirthDate", False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -599,7 +791,23 @@ Public Class OvertimeForm
             Next
         Next
 
-
+        ''''Bundesländer
+        'BW = Baden - Württemberg;
+        'BY = Bayern;
+        'BE = Berlin;
+        'BB = Brandenburg;
+        'HB = Bremen;
+        'HH = Hamburg;
+        'HE = Hessen;
+        'MV = Mecklenburg - Vorpommern;
+        'NI = Niedersachsen;
+        'NW = Nordrhein - Westfalen;
+        'RP = Rheinland - Pfalz;
+        'SL = Saarland;
+        'SN = Sachsen;
+        'ST = Sachsen - Anhalt;
+        'SH = Schleswig - Holstein;
+        'TH = Thüringen.
         '''''''''''''''FT für departments'''''''''''''''''''''''''''''''''
         Dim J
         Dim O
@@ -697,6 +905,12 @@ Public Class OvertimeForm
                             Tag_der_deutschen_Einheit, Allerheiligen, EWeihnachtstag, ZWeihnachtstag}
             End If
 
+            If departments(department_id).Contains("BRE_") Then
+
+                departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr,
+                            Karfreitag, Ostermontag, EMai, Christi_Himmelfahrt, Pfingstmontag,
+                            Tag_der_deutschen_Einheit, Reformationstag, EWeihnachtstag, ZWeihnachtstag}
+            End If
 
         Next
 
@@ -801,6 +1015,12 @@ Public Class OvertimeForm
                             Tag_der_deutschen_Einheit, Allerheiligen, EWeihnachtstag, ZWeihnachtstag}
             End If
 
+            If departments(department_id).Contains("BRE_") Then
+
+                departments_FT(department_id) = New Date() {EWeihnachtstag_Vorjahr, ZWeihnachtstag_Vorjahr, Neujahr,
+                            Karfreitag, Ostermontag, EMai, Christi_Himmelfahrt, Pfingstmontag,
+                            Tag_der_deutschen_Einheit, Reformationstag, EWeihnachtstag, ZWeihnachtstag}
+            End If
 
         Next
 
@@ -830,7 +1050,7 @@ Public Class OvertimeForm
         '''''''''''''''get employees_count''''''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -841,7 +1061,7 @@ Public Class OvertimeForm
 
             objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0&offset=" & y * 50 & "&special=BirthDate", False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -864,7 +1084,7 @@ Public Class OvertimeForm
             For Each id In deactivated
                 objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees/" & id & "?special=BirthDate", False)
                 objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                objhttp.SetRequestHeader("X-ClientId", api_client_id)
                 objhttp.Send()
                 Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -880,7 +1100,7 @@ Public Class OvertimeForm
 
                         objhttp.Open("GET", "https://openapi.planday.com/contractrules/v1.0/employees/" & id, False)
                         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                        objhttp.SetRequestHeader("X-ClientId", api_client_id)
                         objhttp.Send()
                         Parsed_temp = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -937,7 +1157,7 @@ Public Class OvertimeForm
         '''''''''''''''get employees_count''''''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -948,7 +1168,7 @@ Public Class OvertimeForm
 
             objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0&offset=" & y * 50 & "&special=BirthDate", False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -968,7 +1188,7 @@ Public Class OvertimeForm
 
                         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees/" & value("id") & "?special=BirthDate", False)
                         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                        objhttp.SetRequestHeader("X-ClientId", api_client_id)
                         objhttp.Send()
                         Parsed_temp = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -979,7 +1199,7 @@ Public Class OvertimeForm
 
                         objhttp.Open("GET", "https://openapi.planday.com/contractrules/v1.0/employees/" & value("id"), False)
                         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                        objhttp.SetRequestHeader("X-ClientId", api_client_id)
                         objhttp.Send()
                         Parsed_temp = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1057,7 +1277,7 @@ Public Class OvertimeForm
             For Each id In deactivated
                 objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees/" & id & "?special=BirthDate", False)
                 objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                objhttp.SetRequestHeader("X-ClientId", api_client_id)
                 objhttp.Send()
                 Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1073,7 +1293,7 @@ Public Class OvertimeForm
 
                         objhttp.Open("GET", "https://openapi.planday.com/contractrules/v1.0/employees/" & id, False)
                         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                        objhttp.SetRequestHeader("X-ClientId", api_client_id)
                         objhttp.Send()
                         Parsed_temp = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1187,7 +1407,7 @@ Public Class OvertimeForm
 
         objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts?employeeId=" & employee_id & "&status=Active", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1214,7 +1434,7 @@ Public Class OvertimeForm
 
             objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts/" & overtime_accounts(0) & "/balance?balanceDate=" & Format(Now, "yyyy-MM-dd"), False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1245,7 +1465,7 @@ Public Class OvertimeForm
 
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees/" & employee_id & "?special=BirthDate", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1257,7 +1477,7 @@ Public Class OvertimeForm
 
         objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & Format(i, "yyyy-MM-dd") & "&to=" & Format(i.AddDays(6), "yyyy-MM-dd"), False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1267,7 +1487,7 @@ Public Class OvertimeForm
         For y = 0 To CInt(shifts_count / 50) '
             objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & Format(i, "yyyy-MM-dd") & "&to=" & Format(i.AddDays(6), "yyyy-MM-dd") & "&offset=" & y * 50, False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1375,7 +1595,7 @@ Public Class OvertimeForm
 
         objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts?employeeId=" & employee_id & "&status=Active", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1401,7 +1621,7 @@ Public Class OvertimeForm
 
             objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts/" & overtime_accounts(0) & "/transactions?date=" & Format(Now, "yyyy-MM-dd"), False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1442,7 +1662,7 @@ Public Class OvertimeForm
 
         objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts?employeeId=" & employee_id & "&status=Active", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1472,7 +1692,7 @@ Public Class OvertimeForm
 
         objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts/" & overtime_accounts(0) & "/transactions?date=" & Format(Now, "yyyy-MM-dd") & "&externalId=automatic_overtime", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1516,7 +1736,7 @@ Public Class OvertimeForm
 
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees/" & employee_id & "?special=BirthDate", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1527,7 +1747,7 @@ Public Class OvertimeForm
 
         objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&from=" & Format(i, "yyyy-MM-dd") & "&to=" & Format(i.AddDays(6), "yyyy-MM-dd"), False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1537,7 +1757,7 @@ Public Class OvertimeForm
         For y = 0 To CInt(shifts_count / 50) '
             objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&from=" & Format(i, "yyyy-MM-dd") & "&to=" & Format(i.AddDays(6), "yyyy-MM-dd") & "&offset=" & y * 50, False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1626,7 +1846,7 @@ Public Class OvertimeForm
 
         objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?departmentId=" & department_id & "&employeeId=" & employee_id & "&from=" & begin_date & "&to=" & final_date, False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1650,7 +1870,7 @@ Public Class OvertimeForm
 
         objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts?employeeId=" & employee_id & "&status=Active", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1682,7 +1902,7 @@ Public Class OvertimeForm
         objhttp.Open("POST", "https://openapi.planday.com/absence/v1.0/accounts/" & overtime_accounts(0) & "/transactions", False)
         objhttp.SetRequestHeader("Content-Type", "application/json")
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
 
         On Error Resume Next
         objhttp.Send(JSON)
@@ -1906,11 +2126,7 @@ Public Class OvertimeForm
                 End If
 
                 If start_time >= end_surcharges And end_time > start_surcharges Then
-                    If (DateAndTime.Day(start_date) = 24 Or DateAndTime.Day(start_date) = 31) And Month(start_date) = 12 And Year(start_date) > 2019 Then
-                        'do nothing
-                    Else
-                        result = 24 - end_time - start_surcharges
-                    End If
+                    result = 24 - end_time - start_surcharges
                 End If
 
                 If start_time < end_surcharges And end_time <= start_surcharges Then
@@ -1918,11 +2134,7 @@ Public Class OvertimeForm
                 End If
 
                 If start_time < end_surcharges And end_time > start_surcharges Then
-                    If (DateAndTime.Day(start_date) = 24 Or DateAndTime.Day(start_date) = 31) And Month(start_date) = 12 And Year(start_date) > 2019 Then
-                        result = end_surcharges - start_time
-                    Else
-                        result = end_surcharges - start_time + end_time - start_surcharges
-                    End If
+                    result = end_surcharges - start_time + end_time - start_surcharges
                 End If
 
                 If start_time < end_surcharges And end_time < end_surcharges Then
@@ -1934,11 +2146,7 @@ Public Class OvertimeForm
                 End If
 
                 If start_time <= start_surcharges And end_time > start_surcharges Then
-                    If (DateAndTime.Day(start_date) = 24 Or DateAndTime.Day(start_date) = 31) And Month(start_date) = 12 And Year(start_date) > 2019 Then
-                        'do nothing
-                    Else
-                        result = end_time - start_surcharges
-                    End If
+                    result = end_time - start_surcharges
                 End If
 
                 If start_time <= start_surcharges And end_time <= start_surcharges Then
@@ -1946,11 +2154,7 @@ Public Class OvertimeForm
                 End If
 
                 If start_time > start_surcharges Then
-                    If (DateAndTime.Day(start_date) = 24 Or DateAndTime.Day(start_date) = 31) And Month(start_date) = 12 And Year(start_date) > 2019 Then
-                        'do nothing
-                    Else
-                        result = end_time - start_time
-                    End If
+                    result = end_time - start_time
                 End If
 
             End If
@@ -1971,11 +2175,7 @@ Public Class OvertimeForm
                 If start_time <= start_surcharges Then
 
                     If end_day = 7 Or FT_found(end_date, department_id) Then
-                        If (DateAndTime.Day(start_date) = 24 Or DateAndTime.Day(start_date) = 31) And Month(start_date) = 12 And Year(start_date) > 2019 Then
-                            'do nothing
-                        Else
-                            result = 24 - start_surcharges
-                        End If
+                        result = 24 - start_surcharges
                     Else
                         If end_time < end_surcharges Then
                             result = 24 - start_surcharges + end_time
@@ -1994,11 +2194,7 @@ Public Class OvertimeForm
 
                 Else
                     If end_day = 7 Or FT_found(end_date, department_id) Then
-                        If (DateAndTime.Day(start_date) = 24 Or DateAndTime.Day(start_date) = 31) And Month(start_date) = 12 And Year(start_date) > 2019 Then
-                            'do nothing
-                        Else
-                            result = 24 - start_time
-                        End If
+                        result = 24 - start_time
                     Else
                         If end_time < end_surcharges Then
                             result = 24 - start_time + end_time
@@ -2045,7 +2241,7 @@ Public Class OvertimeForm
 
         objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts?employeeId=" & employee_id, False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -2106,7 +2302,7 @@ Public Class OvertimeForm
             For Each Item In vacation_accounts
                 objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts/" & Item & "/balance?balanceDate=" & Format(DateSerial(Year(CDate(begin_date)), 12, 31), "yyyy-MM-dd"), False)
                 objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                objhttp.SetRequestHeader("X-ClientId", api_client_id)
                 objhttp.Send()
                 Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -2118,7 +2314,7 @@ Public Class OvertimeForm
             For Each Item In vacation_accounts
                 objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts/" & Item & "/balance?balanceDate=" & begin_date, False)
                 objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                objhttp.SetRequestHeader("X-ClientId", api_client_id)
                 objhttp.Send()
                 Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -2139,7 +2335,7 @@ Public Class OvertimeForm
             For Each Item In vacation_accounts_next_year
                 objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts/" & Item & "/balance?balanceDate=" & final_date, False)
                 objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                objhttp.SetRequestHeader("X-ClientId", api_client_id)
                 objhttp.Send()
                 Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -2151,7 +2347,7 @@ Public Class OvertimeForm
             For Each Item In vacation_accounts_next_year
                 objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts/" & Item & "/balance?balanceDate=" & Format(DateSerial(Year(CDate(final_date)), 1, 1), "yyyy-MM-dd"), False)
                 objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                objhttp.SetRequestHeader("X-ClientId", api_client_id)
                 objhttp.Send()
                 Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -2167,7 +2363,7 @@ weiter:
             For Each Item In vacation_accounts
                 objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts/" & Item & "/balance?balanceDate=" & final_date, False)
                 objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                objhttp.SetRequestHeader("X-ClientId", api_client_id)
                 objhttp.Send()
                 Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -2179,7 +2375,7 @@ weiter:
             For Each Item In vacation_accounts
                 objhttp.Open("GET", "https://openapi.planday.com/absence/v1.0/accounts/" & Item & "/balance?balanceDate=" & begin_date, False)
                 objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                objhttp.SetRequestHeader("X-ClientId", api_client_id)
                 objhttp.Send()
                 Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -2214,19 +2410,19 @@ weiter:
 
         If user.Contains("reception") Then
 
-            If user.Contains("am") Then result = "Berlin Airport"
-            If user.Contains("sp") Then result = "Berlin Alexanderplatz"
-            If user.Contains("ap") Then result = "Berlin East Side Gallery"
-            If user.Contains("wp") Then result = "Berlin Hauptbahnhof"
-            If user.Contains("os") Then result = "Berlin Mitte ""Humboldthaus"""
-            If user.Contains("ts") Then result = "Berlin Tiergarten"
-            If user.Contains("bc") Then result = "Frankfurt/Main Airport"
-            If user.Contains("ea") Then result = "Frankfurt/Main Convention Center"
-            If user.Contains("ga") Then result = "Hamburg City Center"
-            If user.Contains("cb") Then result = "Heidelberg"
-            If user.Contains("ab") Then result = "Leipzig Hauptbahnhof"
-            If user.Contains("ls") Then result = "Munich City Center"
-            If user.Contains("la") Then result = "Munich Olympiapark"
+            If user.Contains("am") Then result = "BER_AM_Meininger Airport Hotel BBI GmbH"
+            If user.Contains("sp") Then result = "BER_SP_Meininger 10 City Hostel B.-M. GmbH"
+            If user.Contains("ap") Then result = "BER_AP_Meininger Hot.Ber.Eas.Sid.Gal.GmbH"
+            If user.Contains("wp") Then result = "BER_WP_Meininger Berlin Hauptbahnhof GmbH"
+            If user.Contains("os") Then result = "BER_OS_Meininger Oranienburger Str. GmbH"
+            If user.Contains("ts") Then result = "BER_TS_Meininger Hotel Berlin Tiergar.GmbH"
+            If user.Contains("bc") Then result = "FRA_BC_Meininger Airport Frankfurt GmbH"
+            If user.Contains("ea") Then result = "FRA_EA_Meininger 10 Frankfurt GmbH"
+            If user.Contains("ga") Then result = "HAM_GA_Meininger 10 Hamburg GmbH"
+            If user.Contains("cb") Then result = "HEI_CB_Meininger Hotel Heidelberg GmbH"
+            If user.Contains("ab") Then result = "LEI_AB_Meininger Hotel Leipzig HBF GmbH"
+            If user.Contains("ls") Then result = "MUC_LS_Meininger 10 Hostel+Reiseverm. GmbH"
+            If user.Contains("la") Then result = "MUC_LA_Meininger Hotel Muen. Olympiap.GmbH"
             Return result
         Else
 
@@ -2234,7 +2430,7 @@ weiter:
             '''''''''''''''get employees_count''''''''''''''
             objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0", False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -2245,7 +2441,7 @@ weiter:
 
                 objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0&offset=" & y * 50 & "&special=BirthDate", False)
                 objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                objhttp.SetRequestHeader("X-ClientId", api_client_id)
                 objhttp.Send()
                 Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -2255,27 +2451,26 @@ weiter:
                     If LCase(value("email")) = user & "@meininger-hotels.com" Then
                         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees/" & value("id") & "?special=BirthDate", False)
                         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                        objhttp.SetRequestHeader("X-ClientId", api_client_id)
                         objhttp.Send()
                         Parsed_temp = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
-                        Dim department_id As String
-                        If Parsed_temp("data").ContainsKey("primaryDepartmentId") Then
-                            department_id = Parsed_temp("data")("primaryDepartmentId")
-                            If departments(department_id) = "Administration" Then
-                                Return "ALL"
-                            Else
-                                Return departments(department_id)
+                        If Parsed_temp("data").ContainsKey("departments") Then
+                            For Each dep In Parsed_temp("data")("departments")
+                                If departments(dep) = "Administration" Or departments(dep) = "HR" Then
+                                    Return "ALL"
+                                    Exit Function
+                                End If
+                            Next
+                            If Parsed_temp("data").ContainsKey("primaryDepartmentId") Then
+                                Return departments(Parsed_temp("data")("primaryDepartmentId"))
+                                Exit Function
                             End If
-                            Exit Function
-                        Else
-                            Return "NONE"
-                            Exit Function
                         End If
-
                     End If
                 Next
             Next
+            Return "NONE"
         End If
 
     End Function
@@ -2484,7 +2679,7 @@ weiter:
 
         objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & quarter_start_ & "&to=" & quarter_end_, False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -2494,7 +2689,7 @@ weiter:
         For y = 0 To CInt(shifts_count / 50) '
             objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & quarter_start_ & "&to=" & quarter_end_ & "&offset=" & y * 50, False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -2595,7 +2790,7 @@ weiter:
 
         objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & last_3_months_start_ & "&to=" & last_3_months_end_, False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -2605,7 +2800,7 @@ weiter:
         For y = 0 To CInt(shifts_count / 50)
             objhttp.Open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & last_3_months_start_ & "&to=" & last_3_months_end_ & "&offset=" & y * 50, False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -2674,7 +2869,7 @@ weiter:
 
         objhttp.open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & start_ & "&to=" & end_, False)
         objhttp.setRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.setRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.setRequestHeader("X-ClientId", api_client_id)
         objhttp.send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.responseText)
 
@@ -2684,7 +2879,7 @@ weiter:
         For y = 0 To CInt(shifts_count / 50) '
             objhttp.open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & start_ & "&to=" & end_ & "&offset=" & y * 50, False)
             objhttp.setRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.setRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.setRequestHeader("X-ClientId", api_client_id)
             objhttp.send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.responseText)
 
@@ -2716,8 +2911,8 @@ weiter:
                         report_workbooks(current_workbook).Worksheet(current_employee).Range("H1").Value = "break2 to"
                         report_workbooks(current_workbook).Worksheet(current_employee).Range("I1").Value = "sunday"
                         report_workbooks(current_workbook).Worksheet(current_employee).Range("J1").Value = "night"
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("K1").Value = "festive_50"
-                        report_workbooks(current_workbook).Worksheet(current_employee).Range("L1").Value = "festive_25"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("K1").Value = "festive_150"
+                        report_workbooks(current_workbook).Worksheet(current_employee).Range("L1").Value = "festive_125"
                         report_workbooks(current_workbook).Worksheet(current_employee).Range("M1").Value = "working"
                         report_workbooks(current_workbook).Worksheet(current_employee).Range("N1").Value = "paid_sick_leave"
                         report_workbooks(current_workbook).Worksheet(current_employee).Range("O1").Value = "sick_leave_sunday"
@@ -2942,7 +3137,7 @@ weiter:
 
         objhttp.open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & start_ & "&to=" & end_, False)
         objhttp.setRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.setRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.setRequestHeader("X-ClientId", api_client_id)
         objhttp.send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.responseText)
 
@@ -2952,7 +3147,7 @@ weiter:
         For y = 0 To CInt(shifts_count / 50) '
             objhttp.open("GET", "https://openapi.planday.com/scheduling/v1.0/shifts?employeeId=" & employee_id & "&shiftStatus=Approved" & "&from=" & start_ & "&to=" & end_ & "&offset=" & y * 50, False)
             objhttp.setRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.setRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.setRequestHeader("X-ClientId", api_client_id)
             objhttp.send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.responseText)
 

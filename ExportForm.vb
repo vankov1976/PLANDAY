@@ -44,7 +44,11 @@ Public Class ExportForm
             .Columns.Add("Hotel", width:=276)
             .Columns.Add("Nr", width:=74)
             For Each department_id In departments.Keys
-                If ownDepartment = "NONE" Then Exit For
+                If ownDepartment = "NONE" Then
+                    MsgBox("You are not a member of the choosen PLANDAY portal." & vbNewLine & "If you are please login with your MEININGER login,e.g. on Citrix Desktop." & vbNewLine & "Application will exit.")
+                    Application.Exit()
+                End If
+                On Error Resume Next
                 If ownDepartment <> "ALL" Then
                     .Items.Add(ownDepartment).SubItems.Add(department_numbers(departments.FirstOrDefault(Function(x) x.Value = ownDepartment).Key))
                     Exit For
@@ -54,6 +58,7 @@ Public Class ExportForm
             Next
         End With
 
+        select_hotel.Columns(0).Width = -1
         If normalDPI Then
             select_hotel.BeginUpdate()
             For i = 0 To select_hotel.Columns.Count - 1
@@ -82,6 +87,7 @@ Public Class ExportForm
 
 
     Private Sub START_button_Click(sender As Object, e As EventArgs) Handles START_button.Click
+        'OvertimeForm.test_1()
         ImChangingStuff = True
         start()
         ImChangingStuff = False
@@ -140,7 +146,7 @@ Public Class ExportForm
         '''''''''''''''get employees_count''''''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -151,7 +157,7 @@ Public Class ExportForm
 
             objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0&offset=" & y * 50 & "&special=BirthDate", False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -172,7 +178,7 @@ Public Class ExportForm
         For Each Item In selected_departments
             objhttp.Open("GET", "https://openapi.planday.com/payroll/v1.0/payroll?departmentIds=" & Item & "&from=" & start_ & "&to=" & end_ & "&shiftStatus=Approved", False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -233,7 +239,7 @@ Public Class ExportForm
         '''''''''''''''get employees_count''''''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -244,7 +250,7 @@ Public Class ExportForm
 
             objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0&offset=" & y * 50 & "&special=BirthDate", False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -311,8 +317,8 @@ Public Class ExportForm
                             shWorkSheet.Range("O1").Value = "Night hours"
                             shWorkSheet.Range("P1").Value = "Night payment"
                             If selected_month = 1 Then
-                                shWorkSheet.Range("Q1").Value = "festive 50%"
-                                shWorkSheet.Range("R1").Value = "festive 25%"
+                                shWorkSheet.Range("Q1").Value = "festive 150%"
+                                shWorkSheet.Range("R1").Value = "festive 125%"
                                 shWorkSheet.Range("S1").Value = "105 hours"
                                 shWorkSheet.Range("T1").Value = "All shifts approved"
                                 shWorkSheet.Range("U1").Value = "420 payment"
@@ -468,7 +474,7 @@ Public Class ExportForm
 
                         objhttp.Open("GET", "https://openapi.planday.com/contractrules/v1.0/employees/" & value("id"), False)
                         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                        objhttp.SetRequestHeader("X-ClientId", api_client_id)
                         objhttp.Send()
                         Parsed_temp = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -482,7 +488,7 @@ Public Class ExportForm
 
                         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees/" & value("id"), False)
                         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                        objhttp.SetRequestHeader("X-ClientId", api_client_id)
                         objhttp.Send()
                         Parsed_temp = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -644,7 +650,7 @@ Public Class ExportForm
 
             objhttp.Open("GET", "https://openapi.planday.com/payroll/v1.0/payroll?departmentIds=" & Item & "&from=" & start_ & "&to=" & end_ & "&shiftStatus=Approved", False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -681,7 +687,7 @@ Public Class ExportForm
 
                     objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees/" & item_found & "?special=BirthDate", False)
                     objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                    objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                    objhttp.SetRequestHeader("X-ClientId", api_client_id)
                     objhttp.Send()
                     Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -709,7 +715,7 @@ Public Class ExportForm
 
                     objhttp.Open("GET", "https://openapi.planday.com/contractrules/v1.0/employees/" & item_found, False)
                     objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                    objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                    objhttp.SetRequestHeader("X-ClientId", api_client_id)
                     objhttp.Send()
                     Parsed_temp = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -722,7 +728,7 @@ Public Class ExportForm
 
                     objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees/" & item_found, False)
                     objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                    objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                    objhttp.SetRequestHeader("X-ClientId", api_client_id)
                     objhttp.Send()
                     Parsed_temp = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1023,7 +1029,7 @@ Public Class ExportForm
         '''''''''''''''get employees_count''''''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1034,7 +1040,7 @@ Public Class ExportForm
 
             objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0&offset=" & y * 50 & "&special=BirthDate", False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1084,7 +1090,7 @@ Public Class ExportForm
         '''''''''''''''get employees_count''''''''''''''
         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0", False)
         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+        objhttp.SetRequestHeader("X-ClientId", api_client_id)
         objhttp.Send()
         Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1095,7 +1101,7 @@ Public Class ExportForm
 
             objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees?limit=0&offset=" & y * 50 & "&special=BirthDate", False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1162,8 +1168,8 @@ Public Class ExportForm
                             shWorkSheet.Range("O1").Value = "Night hours"
                             shWorkSheet.Range("P1").Value = "Night payment"
                             If selected_month = 1 Then
-                                shWorkSheet.Range("Q1").Value = "festive 50%"
-                                shWorkSheet.Range("R1").Value = "festive 25%"
+                                shWorkSheet.Range("Q1").Value = "festive 150%"
+                                shWorkSheet.Range("R1").Value = "festive 125%"
                                 shWorkSheet.Range("S1").Value = "105 hours"
                                 shWorkSheet.Range("T1").Value = "All shifts approved"
                                 shWorkSheet.Range("U1").Value = "420 payment"
@@ -1319,7 +1325,7 @@ Public Class ExportForm
 
                         objhttp.Open("GET", "https://openapi.planday.com/contractrules/v1.0/employees/" & value("id"), False)
                         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                        objhttp.SetRequestHeader("X-ClientId", api_client_id)
                         objhttp.Send()
                         Parsed_temp = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1333,7 +1339,7 @@ Public Class ExportForm
 
                         objhttp.Open("GET", "https://openapi.planday.com/hr/v1.0/employees/" & value("id"), False)
                         objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-                        objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                        objhttp.SetRequestHeader("X-ClientId", api_client_id)
                         objhttp.Send()
                         Parsed_temp = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1639,7 +1645,7 @@ Public Class ExportForm
 
             objhttp.Open("GET", "https://openapi.planday.com/payroll/v1.0/payroll?departmentIds=" & Item & "&from=" & start_ & "&to=" & end_ & "&shiftStatus=Approved", False)
             objhttp.SetRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.SetRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.SetRequestHeader("X-ClientId", api_client_id)
             objhttp.Send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.ResponseText)
 
@@ -1700,7 +1706,7 @@ Public Class ExportForm
 
             objhttp.open("GET", "https://openapi.planday.com/payroll/v1.0/payroll?departmentIds=" & Item & "&from=" & start_ & "&to=" & end_ & "&shiftStatus=Approved", False)
             objhttp.setRequestHeader("Authorization", "Bearer " & api_token)
-            objhttp.setRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+            objhttp.setRequestHeader("X-ClientId", api_client_id)
             objhttp.send()
             Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.responseText)
 
@@ -1780,8 +1786,8 @@ Public Class ExportForm
                     shWorkSheet.Range("O1").Value = "Night hours"
                     shWorkSheet.Range("P1").Value = "Night payment"
                     If selected_month = 1 Then
-                        shWorkSheet.Range("Q1").Value = "festive 50%"
-                        shWorkSheet.Range("R1").Value = "festive 25%"
+                        shWorkSheet.Range("Q1").Value = "festive 150%"
+                        shWorkSheet.Range("R1").Value = "festive 125%"
                         shWorkSheet.Range("S1").Value = "105 hours"
                         shWorkSheet.Range("T1").Value = "All shifts approved"
                         shWorkSheet.Range("U1").Value = "420 payment"
@@ -1919,7 +1925,7 @@ Public Class ExportForm
 
                     objhttp.open("GET", "https://openapi.planday.com/hr/v1.0/employees/" & item_found & "?special=BirthDate", False)
                     objhttp.setRequestHeader("Authorization", "Bearer " & api_token)
-                    objhttp.setRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                    objhttp.setRequestHeader("X-ClientId", api_client_id)
                     objhttp.send()
                     Parsed = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.responseText)
 
@@ -1947,7 +1953,7 @@ Public Class ExportForm
 
                     objhttp.open("GET", "https://openapi.planday.com/contractrules/v1.0/employees/" & item_found, False)
                     objhttp.setRequestHeader("Authorization", "Bearer " & api_token)
-                    objhttp.setRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                    objhttp.setRequestHeader("X-ClientId", api_client_id)
                     objhttp.send()
                     Parsed_temp = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.responseText)
 
@@ -1960,7 +1966,7 @@ Public Class ExportForm
 
                     objhttp.open("GET", "https://openapi.planday.com/hr/v1.0/employees/" & item_found, False)
                     objhttp.setRequestHeader("Authorization", "Bearer " & api_token)
-                    objhttp.setRequestHeader("X-ClientId", "ddca428b-8530-405d-9960-047132c49531")
+                    objhttp.setRequestHeader("X-ClientId", api_client_id)
                     objhttp.send()
                     Parsed_temp = New Web.Script.Serialization.JavaScriptSerializer().Deserialize(Of Object)(objhttp.responseText)
 
